@@ -16,49 +16,47 @@ export default function MainTabNav() {
     return (
           <Tab.Navigator
             initialRouteName="Home"
-            screenOptions={{
-                headerShown: false
-            }}
+            screenOptions={({ route }) => ({
+              tabBarIcon: ({ color, size }) => {
+                let iconName;
+    
+                if (route.name === 'Home') {
+                  iconName = 'home-account';
+                } else if (route.name === 'Pantry') {
+                  iconName = 'door-open';
+                } else if (route.name === 'Favorites') {
+                  iconName = 'account-heart';
+                } else if (route.name === 'Shopping List') {
+                  iconName = 'cart';
+                }
+    
+                // You can return any component that you like here!
+                return <MaterialCommunityIcons name={iconName} size={size} color={color} />;
+              },
+              tabBarActiveTintColor: '#10b981',
+              tabBarInactiveTintColor: 'gray',
+            })
+            }
           >
             <Tab.Screen 
               name="Pantry" 
               component={ PantryScreen }
-              options={{
-                tabBarLabel: 'Pantry',
-                tabBarIcon: () => (
-                  <MaterialCommunityIcons name="door-open" size={24} color="black" />
-                )
-              }}
+              options={{headerShown: false}}
             />
             <Tab.Screen 
               name="Home" 
               component={ HomeScreen }
-              options={{
-                tabBarLabel: 'Home',
-                tabBarIcon: () => (
-                  <MaterialCommunityIcons name="home-account" size={ 24 } color="black" />
-                )
-              }} 
+              options={{headerShown: false}}
             />
             <Tab.Screen 
               name="Favorites" 
               component={ FavoritesScreen }
-              options={{
-                tabBarLabel: 'Favorites',
-                tabBarIcon: () => (
-                  <MaterialCommunityIcons name="account-heart" size={24} color="black" />
-                )
-              }} 
+              options={{headerShown: false}}
             />
             <Tab.Screen 
               name="Shopping List" 
               component={ ShoppingListScreen }
-              options={{
-                tabBarLabel: 'Shopping List',
-                tabBarIcon: () => (
-                  <MaterialCommunityIcons name="cart" size={24} color="black" />
-                )
-              }} 
+              options={{headerShown: false}}
             />
           </Tab.Navigator>
       );
