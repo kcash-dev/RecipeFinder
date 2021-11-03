@@ -1,12 +1,15 @@
 import React from 'react'
-import { SafeAreaView, StyleSheet, Text, View, Image } from 'react-native'
+import { SafeAreaView, StyleSheet, Text, View, Image, FlatList } from 'react-native'
 import tailwind from 'tailwind-rn';
 
-const IngredientsCard = ({ name, image }) => {
+//Components
+import IngredientsChoices from './IngredientsChoices';
+
+const IngredientsCard = ({ name, image, ingredients }) => {
     return (
-        <SafeAreaView style={ [ tailwind(`w-5/6 my-3 self-center border-gray-300 rounded-lg border-opacity-50 border`), styles.cardContainer ] }>
+        <SafeAreaView style={ [ tailwind(`w-full mb-2 self-center border-gray-300 rounded-lg border-opacity-50 border`), styles.cardContainer ] }>
             <View>
-                <View style={[ styles.upperCard, tailwind(`h-20 flex-row justify-between items-center border-b border-gray-200`) ]}>
+                <View style={[ styles.upperCard, tailwind(`h-16 flex-row justify-between items-center border-b border-gray-200`) ]}>
                     <View style={ tailwind(`pl-5`) }>
                         <Image 
                             source={{ uri: image }}
@@ -17,8 +20,17 @@ const IngredientsCard = ({ name, image }) => {
                         <Text style={ tailwind(`text-lg`) }>{ name }</Text>
                     </View>
                 </View>
-                <View style={[ styles.lowerCard, tailwind(`h-28 flex-row justify-center items-center`) ]}>
-                    <Text>This is where the ingredients will go</Text>
+                <View style={[ styles.lowerCard, tailwind(`justify-center pl-1 w-full`) ]}>
+                    <View style={ tailwind(`py-5`) }>
+                        <FlatList 
+                            data={ ingredients }
+                            renderItem={({ item }) => (
+                                <IngredientsChoices name={ item.name } />
+                            )}
+                            numColumns={3}
+                            keyExtractor={item => item.name}
+                        />
+                    </View>
                 </View>
             </View>
         </SafeAreaView>

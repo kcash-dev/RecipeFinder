@@ -1,17 +1,16 @@
 import React from 'react'
-import { StyleSheet, Text, View, SafeAreaView, Pressable, ImageBackground, Image } from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView, Pressable, ImageBackground } from 'react-native'
 import tailwind from 'tailwind-rn';
 import { FontAwesome } from '@expo/vector-icons';
 
 //Components
 import Search from '../components/Search';
-import Button from '../components/Button';
+import IngredientSection from '../components/IngredientSection';
 
 //Image
 const upperImage = { uri: "https://i.imgur.com/CrICZPR.jpg" }
-const lowerImage = { uri: "https://i.imgur.com/BRIllxL.png" }
 
-export default function HomeScreen() {
+const PantryScreen = () => {
     return (
         <SafeAreaView style={ tailwind(`bg-green-500 flex-1`)}>
             <View style={[ tailwind(`items-center justify-center`), styles.upperSection ]}>
@@ -48,15 +47,13 @@ export default function HomeScreen() {
                 </ImageBackground>
             </View>
             <View style={[ tailwind(`items-center bg-white`), styles.recipeSection ]}>
-                <Image
-                    source={ lowerImage }
-                    style={ tailwind(`justify-center w-full h-40 w-40 mt-10 opacity-50`) }
-                />
-                <Button text="Add Item" />
+                <IngredientSection />
             </View>
         </SafeAreaView>
     )
 }
+
+export default PantryScreen
 
 const styles = StyleSheet.create({
     upperSection: {

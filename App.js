@@ -1,6 +1,5 @@
-import { StatusBar } from 'expo-status-bar';
+
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import MainStackNav from './src/navs/MainStackNav';
 
 function App() {
@@ -8,14 +7,5 @@ function App() {
       <MainStackNav />
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 
 export default App;
