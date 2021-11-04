@@ -1,10 +1,10 @@
 
 import React from 'react';
-import MainStackNav from './src/navs/MainStackNav';
+import MainTabNav from './src/navs/MainTabNav';
 
 function App() {
   return (
-      <MainStackNav />
+      <MainTabNav />
   );
 }
 

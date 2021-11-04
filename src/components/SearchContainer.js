@@ -47,7 +47,7 @@ const SearchContainer = ({ name, subtitle }) => {
                     </View>
                 </View>
                 <View style={ tailwind(`w-full`) }>
-                    <Search />
+                    <Search placeholder="Search for anything" name="magnify"/>
                 </View>
                 </ImageBackground>
             </SafeAreaView>

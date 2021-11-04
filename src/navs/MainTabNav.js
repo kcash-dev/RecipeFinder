@@ -1,19 +1,24 @@
 import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
+
+//Navigators
+import FavoritesNav from './FavoritesNav';
+
 //Screens
 import HomeScreen from '../screens/HomeScreen';
 import PantryScreen from '../screens/PantryScreen';
-import FavoritesScreen from '../screens/FavoritesScreen';
 import ShoppingListScreen from '../screens/ShoppingListScreen';
 
 //Icons
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { NavigationContainer } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
 export default function MainTabNav() {
     return (
+      <NavigationContainer>
           <Tab.Navigator
             initialRouteName="Home"
             screenOptions={({ route }) => ({
@@ -50,7 +55,7 @@ export default function MainTabNav() {
             />
             <Tab.Screen 
               name="Favorites" 
-              component={ FavoritesScreen }
+              component={ FavoritesNav }
               options={{headerShown: false}}
             />
             <Tab.Screen 
@@ -59,5 +64,6 @@ export default function MainTabNav() {
               options={{headerShown: false}}
             />
           </Tab.Navigator>
-      );
+      </NavigationContainer>
+    );
 }

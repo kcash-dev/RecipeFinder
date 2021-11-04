@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, View, SafeAreaView, Image } from 'react-native'
 import tailwind from 'tailwind-rn';
-import { FontAwesome } from '@expo/vector-icons';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 
 //Components
 import SearchContainer from '../components/SearchContainer';
@@ -12,17 +12,20 @@ import ScrollPicker from '../components/ScrollPicker';
 const lowerImage = { uri: "https://i.imgur.com/BRIllxL.png" }
 
 export default function HomeScreen() {
+    const navigation = useNavigation();
     return (
         <SafeAreaView style={ tailwind(`bg-green-500 flex-1`)}>
             <SearchContainer name="UltraCook" />
             <View style={[ tailwind(`justify-center items-center bg-white`), styles.recipeSection ]}>
                 <ScrollPicker />
-                <Image
-                    source={ lowerImage }
-                    style={ tailwind(`h-40 w-40 opacity-50`) }
-                />
-                <Text style={ tailwind(`my-10`) }>Let's add an item to get started</Text>
-                <Button style={ tailwind(`mb-80`) } name="Add Item" />
+                <View style={[ styles.innerContainer, tailwind(`justify-center items-center`) ]}>
+                    <Image
+                        source={ lowerImage }
+                        style={[ styles.image, tailwind(`h-40 w-40 opacity-50`) ]}
+                    />
+                    <Text style={ tailwind(`my-10`) }>Let's add an item to get started</Text>
+                    <Button style={ tailwind(`mb-80`) } name="Add an item" onPress={() => navigation.navigate('Pantry')}/>
+                </View>
             </View>
         </SafeAreaView>
     )
@@ -42,5 +45,8 @@ const styles = StyleSheet.create({
         elevation: 5,
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10
+    },
+    innerContainer: {
+        top: -50
     }
 })

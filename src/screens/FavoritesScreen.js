@@ -1,16 +1,19 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, View, SafeAreaView, Image } from 'react-native'
 import tailwind from 'tailwind-rn'
-import Button from '../components/Button'
+import { useNavigation } from '@react-navigation/native'
+
 
 //Components
 import SearchContainer from '../components/SearchContainer'
+import Button from '../components/Button'
 
 //Images
 const bgImage = { uri: "https://i.imgur.com/KH7vbXc.png" }
 
 const FavoritesScreen = () => {
     const [ isRegistered, setIsRegistered ] = useState(false)
+    const navigation = useNavigation();
     return (
         <SafeAreaView style={ tailwind(`bg-green-500 flex-1`)}>
             <SearchContainer name="Favorites" />
@@ -21,7 +24,7 @@ const FavoritesScreen = () => {
                     <View style={ tailwind(`justify-center items-center flex-1`) }>
                         <Image source={ bgImage } style={ tailwind(`h-40 w-40 mt-10 opacity-50`) } />
                         <Text style={ tailwind(`my-10`) }>Only registered users can save recipes.</Text>
-                        <Button name="Sign up" />
+                        <Button name="Login/Register" onPress={() => navigation.navigate('Register')}/>
                     </View>
                 }
             </View>
@@ -41,7 +44,6 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
-
         elevation: 5,
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10
