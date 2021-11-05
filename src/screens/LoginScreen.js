@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Platform, StyleSheet, Text, View, SafeAreaView, Pressable, KeyboardAvoidingView } from 'react-native'
 import tailwind from 'tailwind-rn'
 import { useNavigation } from '@react-navigation/native'
-import { handleLogin } from '../api/Firebase'
+import { handleLogin, userLoggedIn, auth } from '../api/Firebase'
 
 //Components
 import SearchContainer from '../components/SearchContainer'
@@ -13,6 +13,16 @@ const LoginScreen = () => {
     const [ email, setEmail ] = useState('')
     const [ password, setPassword ] = useState('')
     const navigation = useNavigation();
+    
+    async function signIn() {
+        handleLogin(email, password)
+        await auth.onAuthStateChanged((user) => {
+            if (user) {
+                navigation.navigate('FavoritesScreen')
+            }
+        })
+    }
+
     return (
         <SafeAreaView
             style={ tailwind(`bg-green-500 flex-1`) }
@@ -27,6 +37,7 @@ const LoginScreen = () => {
                         placeholder="Email" 
                         name="email-variant" 
                         getText={ setEmail }
+                        autoCaps={ 1 }
                     />
                 </View>
                 <View style={ tailwind(`w-full my-10`) }>
@@ -34,9 +45,15 @@ const LoginScreen = () => {
                         placeholder="Password" 
                         name="form-textbox-password" 
                         getText={ setPassword }
+                        autoCaps={ 1 }
+                        secureText={ 1 }
                     />
                 </View>
-                <Button name="Login" onPress={() => handleLogin(email, password) }/>
+                { email && password ?
+                    <Button name="Login" onPress={ signIn }/>
+                    :
+                    null
+                }
                 <Pressable 
                     style={({ pressed }) => [{
                         opacity: pressed ? 0.5 : 1

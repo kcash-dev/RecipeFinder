@@ -1,9 +1,9 @@
 
 import { initializeApp } from 'firebase/app';
 import { Alert } from 'react-native';
-import { getAuth, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
-import { getFirestore, setDoc, doc } from 'firebase/firestore';
-import apiKeys from '../config/Keys'
+import { getAuth, signInWithEmailAndPassword, updateProfile, signOut, createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+import { getFirestore, setDoc, doc, getDoc } from 'firebase/firestore';
+import apiKeys from '../config/Keys';
 
 const app = initializeApp(apiKeys.firebaseConfig)
 
@@ -12,13 +12,10 @@ const db = getFirestore();
 
 let userLoggedIn;
 
-onAuthStateChanged(auth, (user) => {
-    if (user != null) {
-      userLoggedIn = user
-    }
+console.log(userLoggedIn)
 
-    return;
-});
+// const docRef = doc(db, "users", userLoggedIn.uid)
+// const username = await getDoc(docRef.name)
 
 // SIGN UP
 async function handleSignup(email, password, firstName) {
@@ -33,24 +30,32 @@ async function handleSignup(email, password, firstName) {
             // Signed in 
             console.log('Logged in')
             const user = userCredential.user;
-            // ...
+            setUserDetails(user);
+            updateProfile(user, {
+                displayName: firstName
+            })
+            setUpUserDB(user.uid, firstName, email)
         })
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
-            // ..
         });
-
-    const currentUser = auth.currentUser;
-    
-    // db.collection("users")
-    //   .doc(currentUser.uid)
-    //   .set({
-    //     email: currentUser.email,
-    //     firstName: firstName,
-    //     favRecipes: []
-    //   });
 }
+
+async function setUpUserDB(user, firstName, email) {
+    await setDoc(doc(db, 'users', user), {
+        name: firstName,
+        email: email,
+        favRecipes: [],
+        currentIngredients: []
+    });
+}
+
+async function setUserDetails(user) {
+    const docRef = doc(db, 'users', user)
+    userLoggedIn = await getDoc(docRef)
+}
+
 
 //SIGN IN
 async function handleLogin(email, password) {
@@ -60,17 +65,19 @@ async function handleLogin(email, password) {
         Alert.alert('Must enter a valid password')
     }
 
-    signInWithEmailAndPassword(email, password)
+    signInWithEmailAndPassword(auth, email, password)
         .then(userCredentials => {
             const user = userCredentials.user
-            console.log('Logged in with: ' + user.email)
+            onAuthStateChanged(auth, () => {
+                setUserDetails(user.uid);
+            });
         })
         .catch(err => console.log(Alert.alert(err.message)))
 }
 
 //LOGOUT
 async function handleSignOut() {
-    signOut()
+    signOut(auth)
         .then(() => {
             console.log('FIRED')
         })

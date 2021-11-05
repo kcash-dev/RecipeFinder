@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
-import { Platform, StyleSheet, Text, View, SafeAreaView, KeyboardAvoidingView, Pressable } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { Platform, StyleSheet, Text, View, SafeAreaView, KeyboardAvoidingView, Pressable, Alert } from 'react-native'
 import tailwind from 'tailwind-rn'
 import { useNavigation } from '@react-navigation/native'
 
 //Firebase
-import { handleSignup, userLoggedIn } from '../api/Firebase'
+import { handleSignup, userLoggedIn, auth } from '../api/Firebase'
 
 //Components
 import Button from '../components/Button'
@@ -16,17 +16,22 @@ const RegisterScreen = () => {
     const [ email, setEmail ] = useState('');
     const [ password, setPassword ] = useState('');
     const navigation = useNavigation();
-
-    function isUser() {
-        if(userLoggedIn) {
-            navigation.navigate('FavoritesScreen')
-        }
-    }
     
-    function signIn() {
-        handleSignup(email, password, name)
-        console.log(userLoggedIn)
-        isUser()
+    async function register() {
+        if(!email) {
+            Alert.alert('You need to enter an email')
+        } else if (!password) {
+            Alert.alert('You need to enter a password')
+        } else if (!name) {
+            Alert.alert('You need to enter your name')
+        } else if (email && password && name){
+            handleSignup(email, password, name);
+            await auth.onAuthStateChanged((user) => {
+                if (user) {
+                    navigation.navigate('FavoritesScreen')
+                }
+            })
+        }
     }
 
     return (
@@ -68,7 +73,7 @@ const RegisterScreen = () => {
                     </View>
                 </KeyboardAvoidingView>
                 <View style={ tailwind(`bg-white items-center justify-center pt-2`) }>
-                    <Button name="Register" onPress={ signIn }/>
+                    <Button name="Register" onPress={ register }/>
                     <Pressable 
                         style={({ pressed }) => [{
                             opacity: pressed ? 0.5 : 1
