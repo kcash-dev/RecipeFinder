@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, View, SafeAreaView, Pressable, ImageBackground, Image } from 'react-native'
 import tailwind from 'tailwind-rn';
 import { FontAwesome } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+
+//Firebase
+import { userLoggedIn } from '../api/Firebase';
 
 //Components
 import Search from '../components/Search';
@@ -10,7 +14,15 @@ import Search from '../components/Search';
 const upperImage = { uri: "https://i.imgur.com/CrICZPR.jpg" }
 
 const SearchContainer = ({ name, subtitle }) => {
-    
+    const [ isLoggedIn, setIsLoggedIn ] = useState(false)
+    const navigation = useNavigation();
+    useEffect(() => {
+        if(userLoggedIn) {
+            setIsLoggedIn(true)
+        }
+
+        return;
+    }, [])
     
     return (
         <SafeAreaView style={[ tailwind(`items-center justify-center`), styles.upperSection ]}>
@@ -29,6 +41,9 @@ const SearchContainer = ({ name, subtitle }) => {
                                     :
                                     1
                             }]}
+                            onPress={() => isLoggedIn ? navigation.navigate('Favorites', { screen: 'FavoritesScreen' }) 
+                            : 
+                            navigation.navigate('Favorites', { screen: 'Login' })}
                         >
                             <FontAwesome 
                                 name="user-circle" 

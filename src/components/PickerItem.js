@@ -11,7 +11,7 @@ const PickerItem = ({ name, color }) => {
                     :
                     1
             },
-            tailwind(`h-6 w-24 rounded-full justify-center`), { backgroundColor: color }, styles.pickerItem ] }
+            tailwind(`h-12 w-24 rounded-full justify-center my-2 mx-2`), { backgroundColor: color }, styles.pickerItem ] }
         >
             <Text style={ tailwind(`text-center text-white`) }>{ name }</Text>
         </Pressable>

@@ -1,21 +1,30 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, Text, View, TextInput } from 'react-native'
 import tailwind from 'tailwind-rn';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-const Search = ({ placeholder, name, callback }) => {
+const Search = ({ placeholder, name, callback, getText, autoCaps, secureText }) => {
+    const [ item, setItem ] = useState('')
     function isCallback(){
         if(callback) {
             callback();
+        } else if (getText) {
+            getText(item)
         }
     }
+
     return (
         <View style={[ tailwind(`flex-row w-11/12 self-center rounded-lg justify-center items-center bg-white`), styles.searchContainer ]}>
             <MaterialCommunityIcons name={ name } size={24} color="black" style={ tailwind(`p-3 opacity-50`) }/>
             <TextInput 
                 placeholder={ placeholder } 
                 style={ tailwind(`py-3 pr-5 bg-white flex-1`) }
-                onFocus={ isCallback }
+                onChangeText={text => setItem(text) }
+                onEndEditing={ isCallback }
+                onSubmitEditing={ isCallback }
+                value={ item }
+                autoCapitalize={ autoCaps ? 'none' : 'words' }
+                secureTextEntry={ secureText ? true : false }
             />
         </View>
     )

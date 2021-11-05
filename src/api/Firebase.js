@@ -1,6 +1,7 @@
 
 import { initializeApp } from 'firebase/app';
-import { getAuth, onAuthStateChanged, FacebookAuthProvider, signInWithCredential } from 'firebase/auth';
+import { Alert } from 'react-native';
+import { getAuth, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore, setDoc, doc } from 'firebase/firestore';
 import apiKeys from '../config/Keys'
 
@@ -8,7 +9,16 @@ const app = initializeApp(apiKeys.firebaseConfig)
 
 const auth = getAuth()
 const db = getFirestore();
-const user = auth.currentUser;
+
+let userLoggedIn;
+
+onAuthStateChanged(auth, (user) => {
+    if (user != null) {
+      userLoggedIn = user
+    }
+
+    return;
+});
 
 // SIGN UP
 async function handleSignup(email, password, firstName) {
@@ -18,23 +28,28 @@ async function handleSignup(email, password, firstName) {
         Alert.alert('Must enter a valid password')
     }
 
-    await auth
-    .createUserWithEmailAndPassword(email, password)
-    .then(userCredentials => {
-        const user = userCredentials.user
-        console.log('Registered with: ' + user.email)
-    })
-    .catch(err => err.message === "The email address is already in use by another account." ? Alert.alert(err.message) : console.log(err.message))
+    createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            // Signed in 
+            console.log('Logged in')
+            const user = userCredential.user;
+            // ...
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // ..
+        });
 
-    const currentUser = firebase.auth().currentUser;
+    const currentUser = auth.currentUser;
     
-    db.collection("users")
-      .doc(currentUser.uid)
-      .set({
-        email: currentUser.email,
-        firstName: firstName,
-        favRecipes: []
-      });
+    // db.collection("users")
+    //   .doc(currentUser.uid)
+    //   .set({
+    //     email: currentUser.email,
+    //     firstName: firstName,
+    //     favRecipes: []
+    //   });
 }
 
 //SIGN IN
@@ -45,23 +60,21 @@ async function handleLogin(email, password) {
         Alert.alert('Must enter a valid password')
     }
 
-    auth
-    .signInWithEmailAndPassword(email, password)
-    .then(userCredentials => {
-        const user = userCredentials.user
-        console.log('Logged in with: ' + user.email)
-    })
-    .catch(err => console.log(Alert.alert(err.message)))
+    signInWithEmailAndPassword(email, password)
+        .then(userCredentials => {
+            const user = userCredentials.user
+            console.log('Logged in with: ' + user.email)
+        })
+        .catch(err => console.log(Alert.alert(err.message)))
 }
 
 //LOGOUT
 async function handleSignOut() {
-    auth
-    .signOut()
-    .then(() => {
-        console.log('FIRED')
-    })
-    .catch(err => alert(err.message))
+    signOut()
+        .then(() => {
+            console.log('FIRED')
+        })
+        .catch(err => alert(err.message))
 }
 
-export { db, auth, handleSignup, handleSignOut, handleLogin }
+export { db, auth, userLoggedIn, handleSignup, handleSignOut, handleLogin }

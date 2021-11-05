@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, View, SafeAreaView, Image } from 'react-native'
 import tailwind from 'tailwind-rn'
 import { useNavigation } from '@react-navigation/native'
 
+//Firebase
+import { userLoggedIn } from '../api/Firebase'
 
 //Components
 import SearchContainer from '../components/SearchContainer'
@@ -14,12 +16,21 @@ const bgImage = { uri: "https://i.imgur.com/KH7vbXc.png" }
 const FavoritesScreen = () => {
     const [ isRegistered, setIsRegistered ] = useState(false)
     const navigation = useNavigation();
+
+    useEffect(() => {
+        if(userLoggedIn) {
+            setIsRegistered(true)
+        }
+
+        return;
+    }, [])
+
     return (
         <SafeAreaView style={ tailwind(`bg-green-500 flex-1`)}>
             <SearchContainer name="Favorites" />
             <View style={[ tailwind(`items-center bg-white`), styles.recipeSection ]}>
                 { isRegistered ?
-                    null
+                    <Text>A user is logged in!</Text>
                     :
                     <View style={ tailwind(`justify-center items-center flex-1`) }>
                         <Image source={ bgImage } style={ tailwind(`h-40 w-40 mt-10 opacity-50`) } />

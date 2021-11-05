@@ -23,12 +23,20 @@ const LoginScreen = () => {
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
             >
                 <View style={ tailwind(`w-full`) }>
-                    <Search placeholder="Email" name="email-variant" />
+                    <Search 
+                        placeholder="Email" 
+                        name="email-variant" 
+                        getText={ setEmail }
+                    />
                 </View>
                 <View style={ tailwind(`w-full my-10`) }>
-                    <Search placeholder="Password" name="form-textbox-password" />
+                    <Search 
+                        placeholder="Password" 
+                        name="form-textbox-password" 
+                        getText={ setPassword }
+                    />
                 </View>
-                <Button name="Login" onPress={ handleLogin() }/>
+                <Button name="Login" onPress={() => handleLogin(email, password) }/>
                 <Pressable 
                     style={({ pressed }) => [{
                         opacity: pressed ? 0.5 : 1
