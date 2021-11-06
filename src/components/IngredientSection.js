@@ -639,6 +639,7 @@ const ingredientCategories = [
 ]
 
 const IngredientSection = () => {
+
     return (
         <View style={ tailwind(`w-full`) }>
             <FlatList 
@@ -648,6 +649,7 @@ const IngredientSection = () => {
                         name={ item.name }
                         image={ item.image }
                         ingredients={ item.ingredients }
+                        isPicked={ findPickedItem }
                     />
                 )}
                 keyExtractor={ item => item.name }

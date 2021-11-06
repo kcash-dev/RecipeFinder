@@ -5,7 +5,8 @@ import tailwind from 'tailwind-rn';
 //Components
 import IngredientsChoices from './IngredientsChoices';
 
-const IngredientsCard = ({ name, image, ingredients }) => {
+const IngredientsCard = ({ name, image, ingredients, isPicked }) => {
+
     return (
         <SafeAreaView style={ [ tailwind(`w-full mb-2 self-center border-gray-300 rounded-lg border-opacity-50 border`), styles.cardContainer ] }>
             <View>

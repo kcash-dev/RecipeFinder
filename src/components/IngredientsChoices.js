@@ -16,7 +16,7 @@ const IngredientsChoices = ({ name }) => {
                     :
                     '#D3D3D3'
                 }, { width: 102 }, tailwind(`m-1 h-14 justify-center rounded-md`) ]}
-            onPress={() => setPress(!press)}
+            onPress={() => setPress(!press) }
         >
             <Text style={[ { 
                 color: press ?

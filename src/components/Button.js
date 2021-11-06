@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, Pressable } from 'react-native'
 import tailwind from 'tailwind-rn';
 
-const Button = ({ name, onPress }) => {
+const Button = ({ name, onPress, number }) => {
     return (
         <Pressable 
             style={({ pressed }) => [ 
@@ -20,7 +20,7 @@ const Button = ({ name, onPress }) => {
                 return;
             } }
         >
-            <Text style={ tailwind(`text-white font-bold`) }>{ name }</Text>
+            <Text style={ tailwind(`text-white font-bold`) }>{ name } { number ? <Text>({number})</Text> : null }</Text>
         </Pressable>
     )
 }
