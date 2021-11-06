@@ -4,8 +4,8 @@ import tailwind from 'tailwind-rn'
 import { useNavigation } from '@react-navigation/native'
 
 //Firebase
-import { handleSignOut, auth, userLoggedIn, db } from '../api/Firebase'
-import { getFirestore, setDoc, doc, getDoc, onSnapshot } from 'firebase/firestore';
+import { handleSignOut, userLoggedIn, db, auth } from '../api/Firebase'
+import { doc, getDoc, onSnapshot, onAuthStateChanged } from 'firebase/firestore';
 
 //Components
 import SearchContainer from '../components/SearchContainer'
@@ -20,39 +20,32 @@ const FavoritesScreen = () => {
     const [ favRecipes, setFavRecipes ] = useState([])
     const navigation = useNavigation();
 
-    // const observer = onSnapshot(doc(db, 'users', auth.currentUser.uid), (docSnapshot) => {
-    //     return;
-    // })
 
-    // useEffect(() => {  
-    //     auth.onAuthStateChanged((user) => {
-    //         if(user) {
-    //             setIsRegistered(true)
-    //         }
-    //     })
-    //     getUserData()
-    // }, [ observer ])
-
-    async function getUserData() {
-        console.log(auth.currentUser.uid)
-        const docRef = doc(db, 'users', auth.currentUser.uid)
-        const docSnap = await getDoc(docRef)
-        setCurrentUser(docSnap.data())
-    }
 
 
 
     async function signOut() {
         handleSignOut()
-        await auth.onAuthStateChanged((user) => {
-            if (!user) {
-                navigation.navigate('Login')
+        navigation.navigate('Login')
+    }
+
+    useEffect(() => {
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                setIsRegistered(true)
+                async function getUserData(uid) {
+                    const docSnap = await getDoc(doc(db, 'users', uid))
+                    setCurrentUser(docSnap.data())
+                }
+                getUserData(user.uid)
+            } else if (!user) {
                 setIsRegistered(false)
             }
         })
-    }
+    }, [])
 
     console.log(currentUser)
+
     return (
         <SafeAreaView style={ tailwind(`bg-green-500 flex-1`)}>
             <SearchContainer name="Favorites" />
