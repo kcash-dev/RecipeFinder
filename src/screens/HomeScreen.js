@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { StyleSheet, Text, View, SafeAreaView, Image } from 'react-native'
 import tailwind from 'tailwind-rn';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+
+
+//Firebase
+import { userLoggedIn, db, auth, setDoc, doc, onAuthStateChanged, signInAnonymously } from '../api/Firebase';
 
 //Components
 import SearchContainer from '../components/SearchContainer';
@@ -12,6 +16,7 @@ import ScrollPicker from '../components/ScrollPicker';
 const lowerImage = { uri: "https://i.imgur.com/BRIllxL.png" }
 
 export default function HomeScreen() {
+
     const navigation = useNavigation();
     return (
         <SafeAreaView style={ tailwind(`bg-green-500 flex-1`)}>

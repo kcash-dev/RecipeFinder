@@ -1,8 +1,8 @@
 
 import { initializeApp } from 'firebase/app';
 import { Alert } from 'react-native';
-import { getAuth, signInWithEmailAndPassword, updateProfile, signOut, createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
-import { getFirestore, setDoc, doc, getDoc } from 'firebase/firestore';
+import { getAuth, signInWithEmailAndPassword, updateProfile, signOut, createUserWithEmailAndPassword, onAuthStateChanged, EmailAuthProvider, linkWithCredential, signInAnonymously } from 'firebase/auth';
+import { getFirestore, where, collection, setDoc, updateDoc, doc, getDoc, getDocs, onSnapshot, arrayUnion, arrayRemove, query } from 'firebase/firestore';
 import apiKeys from '../config/Keys';
 
 const app = initializeApp(apiKeys.firebaseConfig)
@@ -23,9 +23,6 @@ async function handleSignup(email, password, firstName) {
     createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             const user = userCredential.user;
-            updateProfile(user, {
-                displayName: firstName
-            })
             userLoggedIn = user.uid
             // Signed in 
             console.log('Logged in')
@@ -39,7 +36,7 @@ async function handleSignup(email, password, firstName) {
     }
 
 async function setUpUserDB(user, firstName, email) {
-    await setDoc(doc(db, 'users', user), {
+    await updateDoc(doc(db, 'users', user), {
         name: firstName,
         email: email,
         favRecipes: [],
@@ -72,4 +69,4 @@ async function handleSignOut() {
         .catch(err => alert(err.message))
 }
 
-export { db, auth, userLoggedIn, handleSignup, handleSignOut, handleLogin }
+export { db, auth, userLoggedIn, query, where, collection, getDocs, arrayUnion, arrayRemove, onSnapshot, doc, updateDoc, setDoc, getDoc, signInWithEmailAndPassword, updateProfile, onAuthStateChanged,  handleSignup, handleSignOut, handleLogin, EmailAuthProvider, linkWithCredential, signInAnonymously }

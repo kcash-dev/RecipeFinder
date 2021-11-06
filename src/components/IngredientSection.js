@@ -649,7 +649,6 @@ const IngredientSection = () => {
                         name={ item.name }
                         image={ item.image }
                         ingredients={ item.ingredients }
-                        isPicked={ findPickedItem }
                     />
                 )}
                 keyExtractor={ item => item.name }

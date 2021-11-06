@@ -4,8 +4,7 @@ import tailwind from 'tailwind-rn'
 import { useNavigation } from '@react-navigation/native'
 
 //Firebase
-import { handleSignOut, userLoggedIn, db, auth } from '../api/Firebase'
-import { doc, getDoc, onSnapshot, onAuthStateChanged } from 'firebase/firestore';
+import { handleSignOut, db, auth, doc, getDoc, onSnapshot, onAuthStateChanged } from '../api/Firebase'
 
 //Components
 import SearchContainer from '../components/SearchContainer'
@@ -19,10 +18,6 @@ const FavoritesScreen = () => {
     const [ currentUser, setCurrentUser ] = useState({})
     const [ favRecipes, setFavRecipes ] = useState([])
     const navigation = useNavigation();
-
-
-
-
 
     async function signOut() {
         handleSignOut()
@@ -43,8 +38,6 @@ const FavoritesScreen = () => {
             }
         })
     }, [])
-
-    console.log(currentUser)
 
     return (
         <SafeAreaView style={ tailwind(`bg-green-500 flex-1`)}>

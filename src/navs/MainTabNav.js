@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 //Navigators
 import FavoritesNav from './FavoritesNav';
+import PantryNav from './PantryNav'
 
 //Screens
 import HomeScreen from '../screens/HomeScreen';
@@ -45,7 +46,7 @@ export default function MainTabNav() {
           >
             <Tab.Screen 
               name="Pantry" 
-              component={ PantryScreen }
+              component={ PantryNav }
               options={{headerShown: false}}
             />
             <Tab.Screen 

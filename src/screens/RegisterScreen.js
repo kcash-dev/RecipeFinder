@@ -4,7 +4,7 @@ import tailwind from 'tailwind-rn'
 import { useNavigation } from '@react-navigation/native'
 
 //Firebase
-import { handleSignup, userLoggedIn, auth } from '../api/Firebase'
+import { handleSignup, userLoggedIn, auth, EmailAuthProvider, linkWithCredential } from '../api/Firebase'
 
 //Components
 import Button from '../components/Button'
@@ -28,6 +28,14 @@ const RegisterScreen = () => {
             handleSignup(email, password, name);
             await auth.onAuthStateChanged((user) => {
                 if (user) {
+                    const credential = EmailAuthProvider.credential(email, password)
+                    linkWithCredential(auth.currentUser, credential)
+                        .then((usercred) => {
+                            const user = usercred.user;
+                            console.log('Anonymous account upgraded', user)
+                        }).catch((error) => {
+                            console.log('Error upgrading the account', error)
+                        })
                     navigation.navigate('FavoritesScreen')
                 }
             })

@@ -5,7 +5,7 @@ import tailwind from 'tailwind-rn';
 //Components
 import IngredientsChoices from './IngredientsChoices';
 
-const IngredientsCard = ({ name, image, ingredients, isPicked }) => {
+const IngredientsCard = ({ name, image, ingredients }) => {
 
     return (
         <SafeAreaView style={ [ tailwind(`w-full mb-2 self-center border-gray-300 rounded-lg border-opacity-50 border`), styles.cardContainer ] }>
@@ -26,7 +26,7 @@ const IngredientsCard = ({ name, image, ingredients, isPicked }) => {
                         <FlatList 
                             data={ ingredients }
                             renderItem={({ item }) => (
-                                <IngredientsChoices name={ item.name } />
+                                <IngredientsChoices ingredientName={ item.name } category={ name }/>
                             )}
                             numColumns={3}
                             keyExtractor={item => item.name}

@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { Platform, StyleSheet, Text, View, SafeAreaView, Pressable, KeyboardAvoidingView } from 'react-native'
 import tailwind from 'tailwind-rn'
 import { useNavigation } from '@react-navigation/native'
-import { handleLogin, userLoggedIn, auth } from '../api/Firebase'
+
+//Firebase
+import { handleSignOut, handleLogin, userLoggedIn, auth, EmailAuthProvider, linkWithCredential } from '../api/Firebase'
 
 //Components
 import SearchContainer from '../components/SearchContainer'
@@ -13,10 +15,10 @@ const LoginScreen = () => {
     const [ email, setEmail ] = useState('')
     const [ password, setPassword ] = useState('')
     const navigation = useNavigation();
-    
+
     async function signIn() {
-        handleLogin(email, password)
         await auth.onAuthStateChanged((user) => {
+            handleLogin(email, password)
             if (user) {
                 navigation.navigate('FavoritesScreen')
             }
