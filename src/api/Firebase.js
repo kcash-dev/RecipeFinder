@@ -12,8 +12,6 @@ const db = getFirestore();
 
 let userLoggedIn;
 
-console.log(userLoggedIn)
-
 // const docRef = doc(db, "users", userLoggedIn.uid)
 // const username = await getDoc(docRef.name)
 
@@ -27,20 +25,20 @@ async function handleSignup(email, password, firstName) {
 
     createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            // Signed in 
-            console.log('Logged in')
             const user = userCredential.user;
-            setUserDetails(user);
             updateProfile(user, {
                 displayName: firstName
             })
+            // Signed in 
+            console.log('Logged in')
             setUpUserDB(user.uid, firstName, email)
+            
         })
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
         });
-}
+    }
 
 async function setUpUserDB(user, firstName, email) {
     await setDoc(doc(db, 'users', user), {
@@ -53,9 +51,9 @@ async function setUpUserDB(user, firstName, email) {
 
 async function setUserDetails(user) {
     const docRef = doc(db, 'users', user)
-    userLoggedIn = await getDoc(docRef)
+    const docSnap = await getDoc(docRef)
+    userLoggedIn = docSnap
 }
-
 
 //SIGN IN
 async function handleLogin(email, password) {
@@ -84,4 +82,4 @@ async function handleSignOut() {
         .catch(err => alert(err.message))
 }
 
-export { db, auth, userLoggedIn, handleSignup, handleSignOut, handleLogin }
+export { db, auth, handleSignup, handleSignOut, handleLogin }

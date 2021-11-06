@@ -4,7 +4,8 @@ import tailwind from 'tailwind-rn'
 import { useNavigation } from '@react-navigation/native'
 
 //Firebase
-import { handleSignOut, auth, userLoggedIn } from '../api/Firebase'
+import { handleSignOut, auth, userLoggedIn, db } from '../api/Firebase'
+import { getFirestore, setDoc, doc, getDoc, onSnapshot } from 'firebase/firestore';
 
 //Components
 import SearchContainer from '../components/SearchContainer'
@@ -13,51 +14,56 @@ import Button from '../components/Button'
 //Images
 const bgImage = { uri: "https://i.imgur.com/KH7vbXc.png" }
 
-function useForceUpdate(){
-    const [value, setValue] = useState(0); // integer state
-    return () => setValue(value => value + 1); // update the state to force render
-}
-
 const FavoritesScreen = () => {
     const [ isRegistered, setIsRegistered ] = useState(false)
-    const [ currentUserName, setCurrentUserName ] = useState('')
+    const [ currentUser, setCurrentUser ] = useState({})
     const [ favRecipes, setFavRecipes ] = useState([])
     const navigation = useNavigation();
 
-    const forceUpdate = useForceUpdate();
+    // const observer = onSnapshot(doc(db, 'users', auth.currentUser.uid), (docSnapshot) => {
+    //     return;
+    // })
 
-    async function isUser() {
-        await auth.onAuthStateChanged((user) => {
-            if (auth.currentUser) {
-                setIsRegistered(true)
-                console.log(auth.currentUser)
-                setCurrentUserName(auth.currentUser.displayName)
-                
-            }
-        })
+    // useEffect(() => {  
+    //     auth.onAuthStateChanged((user) => {
+    //         if(user) {
+    //             setIsRegistered(true)
+    //         }
+    //     })
+    //     getUserData()
+    // }, [ observer ])
+
+    async function getUserData() {
+        console.log(auth.currentUser.uid)
+        const docRef = doc(db, 'users', auth.currentUser.uid)
+        const docSnap = await getDoc(docRef)
+        setCurrentUser(docSnap.data())
     }
 
-    useEffect(() => {
-        isUser()
-    }, [])
+
 
     async function signOut() {
         handleSignOut()
         await auth.onAuthStateChanged((user) => {
             if (!user) {
-                setIsRegistered(false)
                 navigation.navigate('Login')
+                setIsRegistered(false)
             }
         })
     }
 
+    console.log(currentUser)
     return (
         <SafeAreaView style={ tailwind(`bg-green-500 flex-1`)}>
             <SearchContainer name="Favorites" />
             <View style={[ tailwind(`items-center bg-white`), styles.recipeSection ]}>
                 { isRegistered ?
                 <View>
-                    <Text>{ currentUserName } is logged in!</Text>
+                    {currentUser ?
+                        <Text>{ currentUser.name } is logged in!</Text>
+                        :
+                        null
+                    }
                     <Button name="Sign out" onPress={ signOut }/>
                 </View>
                     :
