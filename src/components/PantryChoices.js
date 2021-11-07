@@ -1,40 +1,25 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, Text, View, Pressable } from 'react-native'
 import tailwind from 'tailwind-rn'
 
 //Redux
 import { useDispatch, useSelector } from 'react-redux'
-import { addItem, removeItem } from '../store/actions'
+import { removeItem } from '../store/actions'
 
-const IngredientsChoices = ({ ingredientName, category }) => {
+const PantryChoices = ({ ingredientName }) => {
     const [ press, setPress ] = useState(false)
     const [ isInCart, setIsInCart ] = useState(false)
     const [ clickedItem, setClickedItem ] = useState({
-        name: ingredientName,
-        category: category
+        name: ingredientName
     })
 
     const dispatch = useDispatch();
     const state = useSelector(state => state.ingredients)
 
-    function itemAlreadyInCart() {
-        if(state.some(ingredient => ingredient.name === ingredientName)) {
-            setIsInCart(true)
-        } else {
-            setIsInCart(false)
-        }
-    }
+    console.log(state, "STATE")
 
-    useEffect(() => {
-        itemAlreadyInCart()
-    }, [ state ])
-
-    function isItemInPantry(item) {
-        if (state.some(ingred => ingred.name === item.name)) {
-            dispatch(removeItem(item))
-        } else {
-            dispatch(addItem(item))
-        }
+    function removeFromPantry(item) {
+        dispatch(removeItem(item))
     }
 
     return (
@@ -50,12 +35,12 @@ const IngredientsChoices = ({ ingredientName, category }) => {
                     '#D3D3D3'
                 }, { width: 102 }, tailwind(`m-1 h-14 justify-center rounded-md`) ]}
             onPress={() => {
-                isItemInPantry(clickedItem)
+                removeFromPantry(clickedItem)
             } }
         >
             <Text style={[ { 
                 color: isInCart ?
-                    '#fff'
+                    '#000'
                     :
                     '#000'
              }, tailwind(`text-center p-2`) ]}>{ ingredientName }</Text>
@@ -63,6 +48,6 @@ const IngredientsChoices = ({ ingredientName, category }) => {
     )
 }
 
-export default IngredientsChoices
+export default PantryChoices
 
 const styles = StyleSheet.create({})

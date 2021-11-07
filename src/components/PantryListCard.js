@@ -1,11 +1,17 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { SafeAreaView, StyleSheet, Text, View, Image, FlatList } from 'react-native'
 import tailwind from 'tailwind-rn';
 
 //Components
-import IngredientsChoices from './IngredientsChoices';
+import PantryChoices from './PantryChoices';
 
-const IngredientsCard = ({ name, image, ingredients }) => {
+const PantryListCard = ({ name, image, ingredientList }) => {
+    const [ ingredients, setIngredients ] = useState([])
+
+    useEffect(() => {
+        setIngredients(ingredientList)
+    }, [ ingredientList ])
+
     return (
         <SafeAreaView style={ [ tailwind(`w-full mb-2 self-center border-gray-300 rounded-lg border-opacity-50 border`), styles.cardContainer ] }>
             <View>
@@ -25,7 +31,7 @@ const IngredientsCard = ({ name, image, ingredients }) => {
                         <FlatList 
                             data={ ingredients }
                             renderItem={({ item }) => (
-                                <IngredientsChoices ingredientName={ item.name } category={ name }/>
+                                <PantryChoices ingredientName={ item } />
                             )}
                             numColumns={3}
                             keyExtractor={item => item.name}
@@ -37,7 +43,7 @@ const IngredientsCard = ({ name, image, ingredients }) => {
     )
 }
 
-export default IngredientsCard
+export default PantryListCard
 
 const styles = StyleSheet.create({
     cardContainer: {

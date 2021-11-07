@@ -3,8 +3,8 @@ import { StyleSheet, Text, View, SafeAreaView } from 'react-native'
 import tailwind from 'tailwind-rn';
 import { useNavigation } from '@react-navigation/native';
 
-//Firebase
-import { db, auth, doc, getDoc, onSnapshot } from '../api/Firebase'
+//Redux
+import { useSelector } from 'react-redux';
 
 //Components
 import IngredientSection from '../components/IngredientSection';
@@ -16,32 +16,14 @@ const upperImage = { uri: "https://i.imgur.com/CrICZPR.jpg" }
 
 const PantryScreen = () => {
     const [ numPickedItems, setNumPickedItems ] = useState(0)
-    const [ pickedItems, setPickedItems ] = useState([])
+
+    const storeState = useSelector(state => state.ingredients)
 
     const navigation = useNavigation();
 
-    const listening = doc(db, 'users', auth.currentUser.uid)
-    const observer = onSnapshot(listening, (doc) => {
-
-    })
-
-    async function getItemData() {
-        const snapshot = await getDoc(listening)
-        const data = snapshot.data()
-        if(data) {
-            if (data.currentIngredients.length !== numPickedItems) {
-                setNumPickedItems(data.currentIngredients.length)
-                setPickedItems(data.currentIngredients)
-            }
-        }
-    }
-
     useEffect(() => {
-        getItemData()
-        return () => {
-            return;
-        }
-    }, [ observer ])
+        setNumPickedItems(storeState.length)
+    }, [ storeState ])
 
     return (
         <SafeAreaView style={ tailwind(`bg-green-500 flex-1`)}>
@@ -50,7 +32,7 @@ const PantryScreen = () => {
                 <IngredientSection />
             </View>
             <View style={ tailwind(`flex-row justify-evenly bg-white py-3`) }>
-                <Button name="My Pantry" observer={ observer } onPress={() => navigation.navigate('PantryList')} number={ numPickedItems }/>
+                <Button name="My Pantry" onPress={() => navigation.navigate('PantryList')} number={ numPickedItems }/>
                 <Button name="Recipes"/>
             </View>
         </SafeAreaView>

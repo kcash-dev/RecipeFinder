@@ -19,7 +19,6 @@ const Tab = createBottomTabNavigator();
 
 export default function MainTabNav() {
     return (
-      <NavigationContainer>
           <Tab.Navigator
             initialRouteName="Home"
             screenOptions={({ route }) => ({
@@ -65,6 +64,5 @@ export default function MainTabNav() {
               options={{headerShown: false}}
             />
           </Tab.Navigator>
-      </NavigationContainer>
     );
 }
