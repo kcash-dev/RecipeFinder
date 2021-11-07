@@ -70,6 +70,9 @@ const PantryListScreen = () => {
     
     return (
         <SafeAreaView style={ tailwind(`flex-1`) }>
+            <View style={[ tailwind(`bg-green-500 p-8`), styles.header ]}>
+                <Text style={ tailwind(`text-center text-2xl font-bold`) }>Items in your Pantry</Text>
+            </View>
             { storeState.length >= 1 ?
                 <FlatList
                     data={ categoriesList }
@@ -93,4 +96,18 @@ const PantryListScreen = () => {
 
 export default PantryListScreen
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    header: {
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+
+        elevation: 5,
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10
+    }
+})
