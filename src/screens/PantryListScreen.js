@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View, SafeAreaView, FlatList } from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView, FlatList, ImageBackground } from 'react-native'
 
 //Redux
 import { useSelector } from 'react-redux'
@@ -10,6 +10,9 @@ import { ingredientCategories } from '../data/Ingredients';
 //Components
 import PantryListCard from '../components/PantryListCard'
 import tailwind from 'tailwind-rn';
+
+//Images
+const upperImage = { uri: "https://i.imgur.com/CrICZPR.jpg" }
 
 const PantryListScreen = () => {
     const [ inPantry, setInPantry ] = useState(null)
@@ -65,31 +68,38 @@ const PantryListScreen = () => {
     useEffect(() => {
         filterActiveItems()
     }, [ inPantry ])
-
-    console.log(inPantry)
     
     return (
-        <SafeAreaView style={ tailwind(`flex-1`) }>
-            <View style={[ tailwind(`bg-green-500 p-8`), styles.header ]}>
-                <Text style={ tailwind(`text-center text-2xl font-bold`) }>Items in your Pantry</Text>
-            </View>
-            { storeState.length >= 1 ?
-                <FlatList
-                    data={ categoriesList }
-                    renderItem={({item}) => (
-                        <PantryListCard 
-                            name={ item.name }
-                            image={ item.image }
-                            ingredientList = { item.ingredients }
-                        />
-                    )}
-                    keyExtractor={ item => item.name }
-                />
-                :
-                <View style={ tailwind(`flex-1 justify-center self-center`) }>
-                    <Text>You have no items in your pantry!</Text>
+        <SafeAreaView style={ tailwind(`flex-1 bg-green-500`) }>
+            <ImageBackground 
+                    source={ upperImage }
+                    resizeMode="cover"
+                    style={ tailwind(`flex-1 justify-center w-full`) }
+                    imageStyle={{ opacity: 0.1 }}
+            >
+                <View style={[ tailwind(`p-8`), styles.header ]}>
+                    <Text style={ tailwind(`text-center text-3xl font-bold text-white`) }>Items in your Pantry</Text>
                 </View>
-            }
+                <View style={[ tailwind(`bg-white`), styles.innerContainer ]}>
+                { storeState.length >= 1 ?
+                    <FlatList
+                        data={ categoriesList }
+                        renderItem={({item}) => (
+                            <PantryListCard 
+                                name={ item.name }
+                                image={ item.image }
+                                ingredientList = { item.ingredients }
+                            />
+                        )}
+                        keyExtractor={ item => item.name }
+                    />
+                    :
+                    <View style={ tailwind(`flex-1 justify-center self-center`) }>
+                        <Text>You have no items in your pantry!</Text>
+                    </View>
+                }
+                </View>
+            </ImageBackground>
         </SafeAreaView>
     )
 }
@@ -108,6 +118,20 @@ const styles = StyleSheet.create({
 
         elevation: 5,
         borderBottomLeftRadius: 10,
-        borderBottomRightRadius: 10
+        borderBottomRightRadius: 10,
+        flex: .1
+    },
+    innerContainer: {
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+        flex: .9
     }
 })

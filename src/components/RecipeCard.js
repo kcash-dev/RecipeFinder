@@ -3,46 +3,34 @@ import { SafeAreaView, StyleSheet, Text, View, Image, FlatList } from 'react-nat
 import tailwind from 'tailwind-rn';
 
 //Components
-import IngredientsChoices from './IngredientsChoices';
 
-const IngredientsCard = ({ name, image, ingredients }) => {
-    const renderItem = useCallback(
-        ({item}) => (
-        <IngredientsChoices 
-            ingredientName={ item.name } 
-            category={ name }
-        />
-    ), [])
+
+const RecipeCard = ({ recipe }) => {
+    console.log(recipe)
     
-    const keyExtractor = useCallback((item) => item.name, [])
     return (
         <SafeAreaView style={ [ tailwind(`w-full mb-2 self-center border-gray-300 rounded-lg border-opacity-50 border`), styles.cardContainer ] }>
                 <View style={[ styles.upperCard, tailwind(`h-16 flex-row justify-between items-center border-b border-gray-200`) ]}>
                     <View style={ tailwind(`pl-5`) }>
-                        <Image 
+                        {/* <Image 
                             source={{ uri: image }}
                             style={ tailwind(`h-10 w-10`) }
-                        />
+                        /> */}
                     </View>
                     <View style={ tailwind(`pr-5`) }>
-                        <Text style={ tailwind(`text-lg`) }>{ name }</Text>
+                        <Text style={ tailwind(`text-lg`) }></Text>
                     </View>
                 </View>
                 <View style={[ styles.lowerCard, tailwind(`justify-center pl-1 w-full`) ]}>
                     <View style={ tailwind(`py-5`) }>
-                        <FlatList 
-                            data={ ingredients }
-                            renderItem={renderItem}
-                            numColumns={3}
-                            keyExtractor={keyExtractor}
-                        />
+                        <Text>{ recipe.label }</Text>
                     </View>
                 </View>
         </SafeAreaView>
     )
 }
 
-export default IngredientsCard
+export default RecipeCard
 
 const styles = StyleSheet.create({
     cardContainer: {

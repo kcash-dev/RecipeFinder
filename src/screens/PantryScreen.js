@@ -6,6 +6,9 @@ import { useNavigation } from '@react-navigation/native';
 //Redux
 import { useSelector } from 'react-redux';
 
+//Firebase
+import { auth, db, doc, updateDoc } from '../api/Firebase';
+
 //Components
 import IngredientSection from '../components/IngredientSection';
 import SearchContainer from '../components/SearchContainer';
@@ -20,6 +23,18 @@ const PantryScreen = () => {
     const storeState = useSelector(state => state.ingredients)
 
     const navigation = useNavigation();
+
+    setTimeout(() => {
+        updateDocs()
+    }, 120000)
+
+    async function updateDocs() {
+        if (auth.currentUser) {
+            updateDoc(doc(db, 'users', auth.currentUser.uid), {
+                currentIngredients: storeState
+            });
+        }
+    }
 
     useEffect(() => {
         setNumPickedItems(storeState.length)

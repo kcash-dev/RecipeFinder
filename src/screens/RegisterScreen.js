@@ -3,8 +3,12 @@ import { Platform, StyleSheet, Text, View, SafeAreaView, KeyboardAvoidingView, P
 import tailwind from 'tailwind-rn'
 import { useNavigation } from '@react-navigation/native'
 
+//Redux
+import { useDispatch } from 'react-redux'
+import { loginUser } from '../store/actions'
+
 //Firebase
-import { handleSignup, userLoggedIn, auth, EmailAuthProvider, linkWithCredential } from '../api/Firebase'
+import { handleSignup, auth, EmailAuthProvider, linkWithCredential } from '../api/Firebase'
 
 //Components
 import Button from '../components/Button'
@@ -16,6 +20,7 @@ const RegisterScreen = () => {
     const [ email, setEmail ] = useState('');
     const [ password, setPassword ] = useState('');
     const navigation = useNavigation();
+    const dispatch = useDispatch()
     
     async function register() {
         if(!email) {
@@ -28,14 +33,7 @@ const RegisterScreen = () => {
             handleSignup(email, password, name);
             await auth.onAuthStateChanged((user) => {
                 if (user) {
-                    const credential = EmailAuthProvider.credential(email, password)
-                    linkWithCredential(auth.currentUser, credential)
-                        .then((usercred) => {
-                            const user = usercred.user;
-                            console.log('Anonymous account upgraded', user)
-                        }).catch((error) => {
-                            console.log('Error upgrading the account', error)
-                        })
+                    dispatch(loginUser())
                     navigation.navigate('FavoritesScreen')
                 }
             })

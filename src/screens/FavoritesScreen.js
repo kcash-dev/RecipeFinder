@@ -3,8 +3,12 @@ import { StyleSheet, Text, View, SafeAreaView, Image } from 'react-native'
 import tailwind from 'tailwind-rn'
 import { useNavigation } from '@react-navigation/native'
 
+//Redux
+import { useSelector, useDispatch } from 'react-redux'
+import { logoutUser } from '../store/actions'
+
 //Firebase
-import { handleSignOut, db, auth, doc, getDoc, onSnapshot, onAuthStateChanged } from '../api/Firebase'
+import { handleSignOut, db, auth, doc, getDoc } from '../api/Firebase'
 
 //Components
 import SearchContainer from '../components/SearchContainer'
@@ -18,26 +22,32 @@ const FavoritesScreen = () => {
     const [ currentUser, setCurrentUser ] = useState({})
     const [ favRecipes, setFavRecipes ] = useState([])
     const navigation = useNavigation();
+    const dispatch = useDispatch()
+    const loginState = useSelector(state => state.loggedIn)
 
     async function signOut() {
         handleSignOut()
-        navigation.navigate('Login')
+        auth.onAuthStateChanged(auth, (user) => {
+            if(!user) {
+                dispatch(logoutUser())
+                navigation.navigate('Login')
+            }
+        })
     }
 
     useEffect(() => {
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                setIsRegistered(true)
-                async function getUserData(uid) {
-                    const docSnap = await getDoc(doc(db, 'users', uid))
-                    setCurrentUser(docSnap.data())
-                }
-                getUserData(user.uid)
-            } else if (!user) {
-                setIsRegistered(false)
+        if (loginState) {
+            const user = auth.currentUser.uid
+            setIsRegistered(true)
+            async function getUserData(uid) {
+                const docSnap = await getDoc(doc(db, 'users', uid))
+                setCurrentUser(docSnap.data())
             }
-        })
-    }, [])
+            getUserData(user)
+        } else {
+            setIsRegistered(false)
+        }
+    }, [ loginState ])
 
     return (
         <SafeAreaView style={ tailwind(`bg-green-500 flex-1`)}>

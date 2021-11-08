@@ -17,7 +17,27 @@ import { NavigationContainer } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
+//Redux
+import { useSelector } from 'react-redux';
+
+//Firebase
+import { auth, db, doc, updateDoc } from '../api/Firebase';
+
 export default function MainTabNav() {
+  const storeState = useSelector(state => state)
+  setTimeout(() => {
+      updateDocs()
+  }, 60000)
+
+  async function updateDocs() {
+    if (auth.currentUser) {
+      updateDoc(doc(db, 'users', auth.currentUser.uid), {
+          currentIngredients: storeState.ingredients,
+          shoppingList: storeState.shoppingCart
+      });
+    }
+  }
+
     return (
           <Tab.Navigator
             initialRouteName="Home"

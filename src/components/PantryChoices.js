@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View, Pressable } from 'react-native'
+import { StyleSheet, Text, View, Pressable, Alert } from 'react-native'
 import tailwind from 'tailwind-rn'
 
 //Redux
 import { useDispatch, useSelector } from 'react-redux'
-import { removeItem } from '../store/actions'
+import { removeItem, addToShoppingCart } from '../store/actions'
 
 const PantryChoices = ({ ingredientName }) => {
     const [ press, setPress ] = useState(false)
@@ -16,10 +16,13 @@ const PantryChoices = ({ ingredientName }) => {
     const dispatch = useDispatch();
     const state = useSelector(state => state.ingredients)
 
-    console.log(state, "STATE")
-
     function removeFromPantry(item) {
         dispatch(removeItem(item))
+    }
+
+    function addItemToShoppingCart(item) {
+        dispatch(addToShoppingCart(item))
+        Alert.alert('Item added to shopping list')
     }
 
     return (
@@ -37,6 +40,7 @@ const PantryChoices = ({ ingredientName }) => {
             onPress={() => {
                 removeFromPantry(clickedItem)
             } }
+            onLongPress={() => addItemToShoppingCart(ingredientName)}
         >
             <Text style={[ { 
                 color: isInCart ?

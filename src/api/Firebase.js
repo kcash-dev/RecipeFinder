@@ -7,8 +7,12 @@ import apiKeys from '../config/Keys';
 
 const app = initializeApp(apiKeys.firebaseConfig)
 
+
+// FIREBASE //
+
 const auth = getAuth()
 const db = getFirestore();
+
 
 let userLoggedIn;
 
@@ -20,28 +24,38 @@ async function handleSignup(email, password, firstName) {
         Alert.alert('Must enter a valid password')
     }
 
-    createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            const user = userCredential.user;
-            userLoggedIn = user.uid
-            // Signed in 
-            console.log('Logged in')
-            setUpUserDB(user.uid, firstName, email)
-            
-        })
-        .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-        });
+    if(auth.currentUser) {
+        const credential = EmailAuthProvider.credential(email, password)
+        linkWithCredential(auth.currentUser, credential)
+            .then((usercred) => {
+                const user = usercred.user;
+                console.log('Anonymous account upgraded', user)
+                setUpUserDB(user.uid, firstName, email)
+            }).catch((error) => {
+                console.log('Error upgrading the account', error)
+            })
+    } else {
+        createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                userLoggedIn = user.uid
+                // Signed in 
+                console.log('Logged in')
+                setUpUserDB(user.uid, firstName, email)
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+            });
     }
+}
 
 async function setUpUserDB(user, firstName, email) {
     await updateDoc(doc(db, 'users', user), {
         name: firstName,
         email: email,
-        favRecipes: [],
-        currentIngredients: []
-    });
+        favRecipes: []
+    }, { merge: true });
 }
 
 //SIGN IN
@@ -67,6 +81,13 @@ async function handleSignOut() {
             console.log('FIRED')
         })
         .catch(err => alert(err.message))
+}
+
+// END FIREBASE //
+
+// RECIPES API //
+const getRecipes = async () => {
+    
 }
 
 export { db, auth, userLoggedIn, query, where, collection, getDocs, arrayUnion, arrayRemove, onSnapshot, doc, updateDoc, setDoc, getDoc, signInWithEmailAndPassword, updateProfile, onAuthStateChanged,  handleSignup, handleSignOut, handleLogin, EmailAuthProvider, linkWithCredential, signInAnonymously }

@@ -3,6 +3,10 @@ import { Platform, StyleSheet, Text, View, SafeAreaView, Pressable, KeyboardAvoi
 import tailwind from 'tailwind-rn'
 import { useNavigation } from '@react-navigation/native'
 
+//Redux
+import { useDispatch } from 'react-redux'
+import { loginUser } from '../store/actions'
+
 //Firebase
 import { handleSignOut, handleLogin, userLoggedIn, auth, EmailAuthProvider, linkWithCredential } from '../api/Firebase'
 
@@ -15,11 +19,13 @@ const LoginScreen = () => {
     const [ email, setEmail ] = useState('')
     const [ password, setPassword ] = useState('')
     const navigation = useNavigation();
+    const dispatch = useDispatch()
 
     async function signIn() {
         await auth.onAuthStateChanged((user) => {
             handleLogin(email, password)
             if (user) {
+                dispatch(loginUser())
                 navigation.navigate('FavoritesScreen')
             }
         })

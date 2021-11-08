@@ -1,8 +1,10 @@
-import { ADD_ITEM, REMOVE_ITEM } from "./types";
+import { ADD_ITEM, ADD_SHOPPINGCART, LOGIN_USER, LOGOUT_USER, REMOVE_ITEM } from "./types";
 
 //initial state
 const initialState = {
-    ingredients: []
+    ingredients: [],
+    loggedIn: false,
+    shoppingCart: []
 }
 
 //Reducer function
@@ -11,7 +13,10 @@ function reducer(state = initialState, action) {
         case ADD_ITEM:
             return {
                 ...state, 
-                ingredients: [...state.ingredients, action.payload]
+                ingredients: [
+                    ...state.ingredients, 
+                    action.payload
+                ]
             }
             break;
         case REMOVE_ITEM:
@@ -19,6 +24,24 @@ function reducer(state = initialState, action) {
             return {
                 ...state,
                 ingredients: state.ingredients.filter(item => item.name != itemToRemove)
+            }
+        case ADD_SHOPPINGCART:
+            return {
+                ...state,
+                shoppingCart: [
+                    ...state.shoppingCart,
+                    action.payload
+                ]
+            }
+        case LOGIN_USER:
+            return {
+                ...state,
+                loggedIn: true
+            }
+        case LOGOUT_USER:
+            return {
+                ...state,
+                loggedIn: false
             }
         default:
             return state;
