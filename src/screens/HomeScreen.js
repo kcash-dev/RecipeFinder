@@ -26,9 +26,9 @@ export default function HomeScreen() {
         const ingredients = []
         ingredientsState.forEach(item => {
             if (item === ingredientsState[0]) {
-                ingredients.push(item.name)
+                ingredients.push(inputItem.name)
             } else {
-                const input = `%2C%20${ item.name }`
+                const input = `%2C%20${ inputItem.name }`
                 ingredients.push(input)
             }
         })
@@ -41,8 +41,7 @@ export default function HomeScreen() {
         console.log(uri)
         await fetch(uri)
             .then((response) => response.json())
-            .then((json) =>{
-                console.log(json, "JSON")
+            .then((json) => {
                 const data = json.hits
                 const dataArray = []
                 data.forEach(item => {
@@ -72,11 +71,11 @@ export default function HomeScreen() {
     }, [])
     
     const renderItem = useCallback(
-        ({item}) => (
-            <RecipeCard recipes={ item }/>
+        ({ item }) => (
+            <RecipeCard ingredientLines={ item.recipe.ingredientLines } recipeName={ item.recipe.label } recipeImage={ item.recipe.image } recipeURI={ item.recipe.uri }/>
     ), [])
 
-    const keyExtractor = useCallback((item) => item.recipe.label, [])
+    const keyExtractor = useCallback((item) => item.recipe.uri, [])
 
     const navigation = useNavigation();
     return (
@@ -85,11 +84,13 @@ export default function HomeScreen() {
             <View style={[ tailwind(`justify-center items-center bg-white`), styles.recipeSection ]}>
                 <ScrollPicker />
                 { ingredientsState.length > 1 ?
-                    <FlatList 
-                        data={ recipeData }
-                        renderItem={ renderItem }
-                        keyExtractor={ keyExtractor }
-                    />
+                    <View style={{ width: "100%" }}>
+                        <FlatList 
+                            data={ recipeData }
+                            renderItem={ renderItem }
+                            keyExtractor={ keyExtractor }
+                        />
+                    </View>
                     :
                     <View style={[ styles.innerContainer, tailwind(`justify-center items-center`) ]}>
                         <Image
