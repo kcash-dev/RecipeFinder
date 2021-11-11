@@ -14,7 +14,7 @@ const RecipeCard = ({ recipeName, recipeURI, recipeImage, ingredientLines }) => 
             </View>
     ), [])
 
-    const keyExtractor = useCallback((item) => item, [])
+    const keyExtractor = useCallback(() => recipeName, [])
     
     return (
         <SafeAreaView style={ [ tailwind(`w-full mb-2 self-center border-gray-300 rounded-lg border-opacity-50 border`), styles.cardContainer ] }>

@@ -15,6 +15,7 @@ import SearchContainer from '../components/SearchContainer';
 import Button from '../components/Button';
 import ScrollPicker from '../components/ScrollPicker';
 import RecipeCard from '../components/RecipeCard';
+import { FieldValue } from '@firebase/firestore';
 
 //Image
 const lowerImage = { uri: "https://i.imgur.com/BRIllxL.png" }
@@ -26,14 +27,27 @@ export default function HomeScreen() {
         const ingredients = []
         ingredientsState.forEach(item => {
             if (item === ingredientsState[0]) {
-                ingredients.push(inputItem.name)
+                const checkedItem = hasWhiteSpace(item.name)
+                ingredients.push(checkedItem)
             } else {
-                const input = `%2C%20${ inputItem.name }`
+                const checkedItem = hasWhiteSpace(item.name)
+                const input = `%2C%20${ checkedItem }`
                 ingredients.push(input)
             }
         })
+        console.log(ingredients)
         getRecipes(ingredients)
     }, [ ingredientsState ])
+
+    function hasWhiteSpace(item) {
+        let itemInput;
+        if (item.indexOf(' ') >= 0) {
+            itemInput = item.replace(/\s/g, `%20`)
+        } else {
+            itemInput = item
+        }
+        return itemInput;
+    }
 
     const getRecipes = async (ingredients) => {
         const ingredientsList = ingredients.join('')
@@ -75,7 +89,7 @@ export default function HomeScreen() {
             <RecipeCard ingredientLines={ item.recipe.ingredientLines } recipeName={ item.recipe.label } recipeImage={ item.recipe.image } recipeURI={ item.recipe.uri }/>
     ), [])
 
-    const keyExtractor = useCallback((item) => item.recipe.uri, [])
+    const keyExtractor = useCallback((item) => item.recipe.label, [])
 
     const navigation = useNavigation();
     return (
