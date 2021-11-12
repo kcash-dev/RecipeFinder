@@ -15,7 +15,6 @@ import SearchContainer from '../components/SearchContainer';
 import Button from '../components/Button';
 import ScrollPicker from '../components/ScrollPicker';
 import RecipeCard from '../components/RecipeCard';
-import { FieldValue } from '@firebase/firestore';
 
 //Image
 const lowerImage = { uri: "https://i.imgur.com/BRIllxL.png" }
@@ -26,14 +25,9 @@ export default function HomeScreen() {
     useEffect(() => {
         const ingredients = []
         ingredientsState.forEach(item => {
-            if (item === ingredientsState[0]) {
-                const checkedItem = hasWhiteSpace(item.name)
-                ingredients.push(checkedItem)
-            } else {
-                const checkedItem = hasWhiteSpace(item.name)
-                const input = `%2C%20${ checkedItem }`
-                ingredients.push(input)
-            }
+            const checkedItem = hasWhiteSpace(item.name)
+            const input = `%2C%20${ checkedItem }`
+            ingredients.push(input)
         })
         console.log(ingredients)
         getRecipes(ingredients)
@@ -51,19 +45,50 @@ export default function HomeScreen() {
 
     const getRecipes = async (ingredients) => {
         const ingredientsList = ingredients.join('')
-        const uri = `https://api.edamam.com/api/recipes/v2?type=public&q=${ingredientsList}&app_id=a39c3b46&app_key=90c9516d61c8da92c31449ddf3617ac4&imageSize=SMALL`
+        const numIngredients = ingredients.length + 3
+        const uri = `https://api.edamam.com/api/recipes/v2?type=public&q=salt%2C%20pepper%2C%20water${ingredientsList}&app_id=a39c3b46&app_key=90c9516d61c8da92c31449ddf3617ac4&imageSize=REGULAR&ingr=0-${numIngredients}`
         console.log(uri)
         await fetch(uri)
             .then((response) => response.json())
             .then((json) => {
                 const data = json.hits
                 const dataArray = []
-                data.forEach(item => {
-                    dataArray.push(item)
+                const ingredients = item.recipe.ingredients
+                const ingredientNames = []
+                ingredients.forEach(ing => {
+                    ingredientNames.push(ing.food)
                 })
+                data.forEach(item => {
+                    dataArray.push({
+                        recipeName: item.recipe.label,
+                        ingredientNames: [ ingredientNames ],
+                        ingredientLines: item.recipe.ingredientLines,
+                        ingredientsInfo: ingredients
+                    })
+                })
+                const chosenRecipes = filterRecipes(dataArray)
                 setRecipeData(dataArray)
             })
             .catch((error) => console.log(error))
+    }
+
+    console.log(ingredientsState, "INGREDIENTS STATE")
+
+    function filterRecipes(recipes) {
+        recipes.forEach(recipe => {
+            objectsAreSame(recipe.ingredientNames, ingredientsState)
+        })
+    }
+
+    function objectsAreSame(x, y) {
+        let objectsAreSame = true;
+        for (var propName in x) {
+            if(x[propName] !== y[propName]) {
+                objectsAreSame - false;
+                break;
+            }
+        }
+        return objectsAreSame;
     }
 
     async function newUser() {
