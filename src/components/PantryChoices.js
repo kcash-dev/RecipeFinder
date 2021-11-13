@@ -10,7 +10,7 @@ const PantryChoices = ({ ingredientName }) => {
     const [ press, setPress ] = useState(false)
     const [ isInCart, setIsInCart ] = useState(false)
     const [ clickedItem, setClickedItem ] = useState({
-        name: ingredientName
+        ingredientName: ingredientName
     })
 
     const dispatch = useDispatch();

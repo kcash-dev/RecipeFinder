@@ -18,7 +18,7 @@ const IngredientsChoices = ({ ingredientName, category }) => {
     const state = useSelector(state => state.ingredients)
 
     function itemAlreadyInCart() {
-        if(state.some(ingredient => ingredient.name === ingredientName)) {
+        if(state.some(ingredient => ingredient.ingredientName === ingredientName)) {
             setIsInCart(true)
         } else {
             setIsInCart(false)
@@ -30,7 +30,7 @@ const IngredientsChoices = ({ ingredientName, category }) => {
     }, [ state ])
 
     function isItemInPantry(item) {
-        if (state.some(ingred => ingred.name === item.name)) {
+        if (state.some(ingred => ingred.ingredientName === item.ingredientName)) {
             dispatch(removeItem(item))
         } else {
             dispatch(addItem(item))

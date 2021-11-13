@@ -25,11 +25,10 @@ export default function HomeScreen() {
     useEffect(() => {
         const ingredients = []
         ingredientsState.forEach(item => {
-            const checkedItem = hasWhiteSpace(item.name)
+            const checkedItem = hasWhiteSpace(item.ingredientName)
             const input = `%2C%20${ checkedItem }`
             ingredients.push(input)
         })
-        console.log(ingredients)
         getRecipes(ingredients)
     }, [ ingredientsState ])
 
@@ -53,28 +52,30 @@ export default function HomeScreen() {
             .then((json) => {
                 const data = json.hits
                 const dataArray = []
-                const ingredients = item.recipe.ingredients
                 const ingredientNames = []
-                ingredients.forEach(ing => {
-                    ingredientNames.push(ing.food)
-                })
                 data.forEach(item => {
+                    const ingredients = item.recipe.ingredients
+                    ingredients.forEach(ing => {
+                        ingredientNames.push(ing.food)
+                    })
                     dataArray.push({
                         recipeName: item.recipe.label,
-                        ingredientNames: [ ingredientNames ],
+                        ingredientNames: ingredientNames,
                         ingredientLines: item.recipe.ingredientLines,
-                        ingredientsInfo: ingredients
+                        ingredientsInfo: ingredients,
+                        ingredientImage: item.recipe.image,
+                        ingredientURI: item.recipe.uri
                     })
                 })
-                const chosenRecipes = filterRecipes(dataArray)
-                setRecipeData(dataArray)
+                const filteredRecipes = filterRecipes(dataArray)
+                // const chosenRecipes = filterRecipes(dataArray)
+                setRecipeData(filteredRecipes)
             })
             .catch((error) => console.log(error))
     }
 
-    console.log(ingredientsState, "INGREDIENTS STATE")
-
     function filterRecipes(recipes) {
+        const ingredients = []
         recipes.forEach(recipe => {
             objectsAreSame(recipe.ingredientNames, ingredientsState)
         })
@@ -84,7 +85,7 @@ export default function HomeScreen() {
         let objectsAreSame = true;
         for (var propName in x) {
             if(x[propName] !== y[propName]) {
-                objectsAreSame - false;
+                objectsAreSame = false;
                 break;
             }
         }
@@ -111,10 +112,10 @@ export default function HomeScreen() {
     
     const renderItem = useCallback(
         ({ item }) => (
-            <RecipeCard ingredientLines={ item.recipe.ingredientLines } recipeName={ item.recipe.label } recipeImage={ item.recipe.image } recipeURI={ item.recipe.uri }/>
+            <RecipeCard ingredientLines={ item.ingredientLines } recipeName={ item.recipeName } recipeImage={ item.ingredientImage } recipeURI={ item.imageURI }/>
     ), [])
 
-    const keyExtractor = useCallback((item) => item.recipe.label, [])
+    const keyExtractor = useCallback((item) => item.recipeName, [])
 
     const navigation = useNavigation();
     return (
