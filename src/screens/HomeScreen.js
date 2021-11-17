@@ -19,77 +19,66 @@ import RecipeCard from '../components/RecipeCard';
 //Image
 const lowerImage = { uri: "https://i.imgur.com/BRIllxL.png" }
 
+//Spoonacular
+import apiKeys from '../config/Keys';
+
 export default function HomeScreen() {
     const [ recipeData, setRecipeData ] = useState([])
     const ingredientsState = useSelector(state => state.ingredients)
     useEffect(() => {
-        const ingredients = []
+        const ingredients = ['salt', '+pepper', '+water']
         ingredientsState.forEach(item => {
-            const checkedItem = hasWhiteSpace(item.ingredientName)
-            const input = `%2C%20${ checkedItem }`
-            ingredients.push(input)
+            const fixedItem = hasWhiteSpace(item.ingredientName)
+            const finalItem = `+${fixedItem}`
+            ingredients.push(finalItem)
         })
-        getRecipes(ingredients)
+        if(ingredientsState.length > 0) { getRecipes(ingredients) }
     }, [ ingredientsState ])
 
     function hasWhiteSpace(item) {
         let itemInput;
         if (item.indexOf(' ') >= 0) {
-            itemInput = item.replace(/\s/g, `%20`)
+            let itemChecked = item.replace(/\s+/g, '').toLowerCase()
+            itemInput = `${itemChecked}`
         } else {
-            itemInput = item
+            itemInput = `${item.toLowerCase()}`
         }
         return itemInput;
     }
 
     const getRecipes = async (ingredients) => {
-        const ingredientsList = ingredients.join('')
-        const numIngredients = ingredients.length + 3
-        const uri = `https://api.edamam.com/api/recipes/v2?type=public&q=salt%2C%20pepper%2C%20water${ingredientsList}&app_id=a39c3b46&app_key=90c9516d61c8da92c31449ddf3617ac4&imageSize=REGULAR&ingr=0-${numIngredients}`
+        const ingredientsList = ingredients.join(',')
+        const uri = `https://api.spoonacular.com/recipes/findByIngredients?apiKey=${apiKeys.spoonacularConfig.apiKey}&ingredients=${ingredientsList}`
         console.log(uri)
         await fetch(uri)
             .then((response) => response.json())
             .then((json) => {
-                const data = json.hits
-                const dataArray = []
-                const ingredientNames = []
-                data.forEach(item => {
-                    const ingredients = item.recipe.ingredients
-                    ingredients.forEach(ing => {
-                        ingredientNames.push(ing.food)
-                    })
-                    dataArray.push({
-                        recipeName: item.recipe.label,
-                        ingredientNames: ingredientNames,
-                        ingredientLines: item.recipe.ingredientLines,
-                        ingredientsInfo: ingredients,
-                        ingredientImage: item.recipe.image,
-                        ingredientURI: item.recipe.uri
-                    })
-                })
-                const filteredRecipes = filterRecipes(dataArray)
-                // const chosenRecipes = filterRecipes(dataArray)
-                setRecipeData(filteredRecipes)
+                const data = json
+                const filteredRecipes = data.filter(recipe => recipe.missingIngredientCount === 0)
+                console.log(filteredRecipes, "DATA")
             })
             .catch((error) => console.log(error))
     }
 
-    function filterRecipes(recipes) {
-        const ingredients = []
+    function checkPantry(recipes) {
+        const matchedRecipes = []
         recipes.forEach(recipe => {
-            objectsAreSame(recipe.ingredientNames, ingredientsState)
-        })
-    }
-
-    function objectsAreSame(x, y) {
-        let objectsAreSame = true;
-        for (var propName in x) {
-            if(x[propName] !== y[propName]) {
-                objectsAreSame = false;
-                break;
+            const pantryIngredients = ['salt', 'water', 'black pepper']
+            const recipeIngredients = []
+            ingredientsState.forEach(item => {
+                pantryIngredients.push(item.ingredientName.toLowerCase())
+            })
+            recipe.ingredientNames.forEach(item => {
+                recipeIngredients.push(item.toLowerCase())
+            })
+            console.log(recipeIngredients, pantryIngredients, "Ingredients Compared")
+            const checkedRecipe = recipeIngredients.every(item => pantryIngredients.includes(item))
+            if(checkedRecipe) {
+                console.log(checkedRecipe, "FOUND")
+                matchedRecipes.push(checkedRecipe)
             }
-        }
-        return objectsAreSame;
+        })
+        return matchedRecipes;
     }
 
     async function newUser() {
@@ -123,7 +112,7 @@ export default function HomeScreen() {
             <SearchContainer name="UltraCook" />
             <View style={[ tailwind(`justify-center items-center bg-white`), styles.recipeSection ]}>
                 <ScrollPicker />
-                { ingredientsState.length > 1 ?
+                { ingredientsState.length >= 1 ?
                     <View style={{ width: "100%" }}>
                         <FlatList 
                             data={ recipeData }
