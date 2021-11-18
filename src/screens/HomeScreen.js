@@ -106,6 +106,20 @@ export default function HomeScreen() {
 
     const keyExtractor = useCallback((item) => item.recipeName, [])
 
+    async function getIngredients() {
+        const uri = `https://api.spoonacular.com/food/ingredients/search?apiKey=${apiKeys.spoonacularConfig.apiKey}`
+        console.log(uri)
+        await fetch(uri)
+            .then((response) => response.json())
+            .then((json) => {
+                const data = json
+                console.log(data, "INGREDIENT DATA")
+            })
+            .catch((error) => console.log(error))
+}
+
+getIngredients();
+
     const navigation = useNavigation();
     return (
         <SafeAreaView style={ tailwind(`bg-green-500 flex-1`)}>

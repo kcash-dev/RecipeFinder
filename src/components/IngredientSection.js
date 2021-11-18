@@ -3,7 +3,7 @@ import { StyleSheet, FlatList, View } from 'react-native'
 import tailwind from 'tailwind-rn';
 
 //Data
-import { ingredientCategories } from '../data/Ingredients';
+import { ingredientCategories, ingredients } from '../data/Ingredients';
 
 //Components
 import IngredientsCard from './IngredientsCard';
@@ -11,7 +11,7 @@ import IngredientsCard from './IngredientsCard';
 
 const IngredientSection = () => {
     const renderItem = useCallback(
-        ({item}) => (
+        ({ item }) => (
         <IngredientsCard 
             name={ item.name }
             image={ item.image }
