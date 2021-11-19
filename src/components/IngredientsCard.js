@@ -13,6 +13,8 @@ const IngredientsCard = ({ name, image, ingredients }) => {
             category={ name }
         />
     ), [])
+
+    console.log(ingredients, "INGREDIENTS")
     
     const keyExtractor = useCallback((item) => item.name, [])
     return (

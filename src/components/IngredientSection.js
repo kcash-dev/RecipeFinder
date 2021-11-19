@@ -8,7 +8,6 @@ import { ingredientCategories, ingredients } from '../data/Ingredients';
 //Components
 import IngredientsCard from './IngredientsCard';
 
-
 const IngredientSection = () => {
     const renderItem = useCallback(
         ({ item }) => (
