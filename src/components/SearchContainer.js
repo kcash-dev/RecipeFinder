@@ -42,7 +42,7 @@ const SearchContainer = ({ name, subtitle }) => {
 
     const renderItem = useCallback(
         ({ item }) => (
-            <View style={ tailwind(`bg-white border h-16 items-center justify-between flex-row w-full px-3`) }>
+            <View style={ tailwind(`bg-white border h-16 rounded-lg items-center justify-between flex-row w-full px-3`) }>
                 <Text style={ tailwind(`text-lg text-black`) }>{ item.name }</Text>
                 <Pressable
                     style={({ pressed }) => [ 
@@ -70,13 +70,14 @@ const SearchContainer = ({ name, subtitle }) => {
                 style={ tailwind(`flex-1 justify-center w-full`) }
                 imageStyle={{ opacity: 0.1 }}
             >
-            <View style={ tailwind(`items-center flex-row w-full justify-center`) }>
+            <View style={ tailwind(`items-center flex-row w-11/12 self-center justify-center`) }>
                 { isFocused ?
                     <View style={ tailwind(`flex-1 h-16 my-3`) }>
                         <FlatList 
                             data={ ingredients }
                             renderItem={ renderItem }
                             keyExtractor={ keyExtractor }
+                            showsVerticalScrollIndicator="false"
                         />
                     </View>
                     :
