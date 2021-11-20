@@ -20,7 +20,12 @@ export const ingredientCategories = [
     {
         name: 'Health Foods',
         image: "https://i.imgur.com/N1BeiuS.png",
-        ingredients: []
+        ingredients: [
+          {
+            name: "matcha tea",
+            id: 98932
+          },
+        ]
     },
     {
         name: 'Pasta and Rice',
@@ -99,7 +104,20 @@ export const ingredientCategories = [
     {
         name: 'Refrigerated',
         image: "https://i.imgur.com/ZsbUZNs.png",
-        ingredients: []
+        ingredients: [
+          {
+            name: "refrigerated crescent rolls",
+            id: 93618
+          },
+          {
+            name: "refrigerated pizza dough",
+            id: 93610
+          },
+          {
+            name: "refrigerated sugar cookie dough",
+            id: 18205
+          },
+        ]
     },
     {
         name: 'Canned and Jarred',
@@ -158,7 +176,16 @@ export const ingredientCategories = [
     {
         name: 'Frozen',
         image: "https://i.imgur.com/ekb3M7K.png",
-        ingredients: []
+        ingredients: [
+          {
+            name: "frozen corn",
+            id: 11913
+          },
+          {
+            name: "frozen spinach",
+            id: 11463
+          },
+        ]
     },
     {
         name: 'Nut butters, Jams, and Honey',
@@ -173,12 +200,22 @@ export const ingredientCategories = [
     {
         name: 'Oil, Vinegar, Salad Dressing',
         image: "https://i.imgur.com/BnHJ9l3.png",
-        ingredients: []
+        ingredients: [
+          {
+            name: "avocado oil",
+            id: 4581
+          },
+        ]
     },
     {
         name: 'Gourmet',
         image: "https://i.imgur.com/cCiOwRy.png",
-        ingredients: []
+        ingredients: [
+          {
+            name: "smoked sausage",
+            id: 7916
+          },
+        ]
     },
     {
         name: 'Produce',
@@ -857,7 +894,12 @@ export const ingredientCategories = [
     {
         name: 'Not in Grocery Store/Homemade',
         image: "https://i.imgur.com/XJXXSRP.png",
-        ingredients: []
+        ingredients: [
+          {
+            name: "brownie mix",
+            id: 18632
+          },
+        ]
     },
     {
         name: 'Milk, Eggs, Other Dairy',
@@ -882,7 +924,12 @@ export const ingredientCategories = [
     {
         name: 'Tea and Coffee',
         image: "https://i.imgur.com/wqeGXzu.png",
-        ingredients: []
+        ingredients: [
+          {
+            name: "sweet tea",
+            id: 14355
+          },
+        ]
     },
     {
         name: 'Seafood',
@@ -901,12 +948,22 @@ export const ingredientCategories = [
     {
         name: 'Spices and Seasonings',
         image: "https://i.imgur.com/yJve4GT.png",
-        ingredients: []
+        ingredients: [
+          {
+            name: "cajun seasoning",
+            id: 1032028
+          },
+        ]
     },
     {
         name: 'Gluten Free',
         image: "https://i.imgur.com/pk0uM9C.png",
-        ingredients: []
+        ingredients: [
+          {
+            name: "arrowroot powder",
+            id: 20003
+          },
+        ]
     },
     {
         name: 'Cheese',
@@ -1045,7 +1102,12 @@ export const ingredientCategories = [
     {
         name: 'Condiments',
         image: "https://i.imgur.com/TnmiCJb.png",
-        ingredients: []
+        ingredients: [
+          {
+            name: "ketchup",
+            id: 11935
+          },
+        ]
     },
     {
         name: 'Nuts',
@@ -1060,12 +1122,31 @@ export const ingredientCategories = [
     {
         name: 'Dried Fruits',
         image: "https://i.imgur.com/bE8Y1z5.png",
-        ingredients: []
+        ingredients: [
+          {
+            name: "dried apricots",
+            id: 9032
+          },
+          {
+            name: "dried cherries",
+            id: 93822
+          },
+         
+          {
+            name: "dried cranberries",
+            id: 9079
+          },
+        ]
     },
     {
         name: 'Savory Snacks',
         image: "https://i.imgur.com/tpYyKis.png",
-        ingredients: []
+        ingredients: [
+          {
+            name: "corn chips",
+            id: 19003
+          },
+        ]
     },
     {
         name: 'Meat',
@@ -1339,10 +1420,7 @@ export const ingredientCategories = [
               name: "skinless boneless chicken thighs",
               id: 5096
             },
-            {
-              name: "smoked sausage",
-              id: 7916
-            },
+
             {
               name: "steaks",
               id: 23232
@@ -1392,7 +1470,12 @@ export const ingredientCategories = [
     {
         name: 'Sweet Snacks',
         image: "https://i.imgur.com/lghirLe.png",
-        ingredients: []
+        ingredients: [
+          {
+            name: "candy canes",
+            id: 93759
+          },
+        ]
     },
     {
         name: 'Alcoholic Beverages',
@@ -1411,17 +1494,32 @@ export const ingredientCategories = [
     {
         name: 'Bakery/Bread',
         image: "https://i.imgur.com/qw0J1cv.png",
-        ingredients: []
+        ingredients: [
+          {
+            name: "bread",
+            id: 18064
+          },
+        ]
     },
     {
         name: 'Cereal',
         image: "https://i.imgur.com/9a5K53T.png",
-        ingredients: []
+        ingredients: [
+          {
+            name: "cereal",
+            id: 8029
+          },
+        ]
     },
     {
         name: 'Beverages',
         image: "https://i.imgur.com/LkY7BA5.png",
-        ingredients: []
+        ingredients: [
+          {
+            name: "soda water",
+            id: 14121
+          },
+        ]
     },
 ]
 
@@ -1448,10 +1546,7 @@ export const ingredients = [
  },
 
 
- {
-   name: "arrowroot powder",
-   id: 20003
- },
+
 
 
  {
@@ -1466,10 +1561,6 @@ export const ingredients = [
 
 
 
- {
-   name: "avocado oil",
-   id: 4581
- },
 
 
 
@@ -1589,10 +1680,7 @@ export const ingredients = [
    name: "brandy",
    id: 10114037
  },
- {
-   name: "bread",
-   id: 18064
- },
+
  {
    name: "bread flour",
    id: 10120129
@@ -1619,10 +1707,7 @@ export const ingredients = [
    name: "brown sugar",
    id: 19334
  },
- {
-   name: "brownie mix",
-   id: 18632
- },
+
 
  {
    name: "bulgur",
@@ -1647,18 +1732,12 @@ export const ingredients = [
    name: "caesar dressing",
    id: 43015
  },
- {
-   name: "cajun seasoning",
-   id: 1032028
- },
+
  {
    name: "cake flour",
    id: 10020129
  },
- {
-   name: "candy canes",
-   id: 93759
- },
+
  {
    name: "candy coating",
    id: 98857
@@ -1727,10 +1806,7 @@ export const ingredients = [
    name: "celery seed",
    id: 2007
  },
- {
-   name: "cereal",
-   id: 8029
- },
+
  {
    name: "champagne",
    id: 10043155
@@ -2005,10 +2081,7 @@ export const ingredients = [
    name: "corn bread mix",
    id: 18022
  },
- {
-   name: "corn chips",
-   id: 19003
- },
+
  {
    name: "corn flakes cereal",
    id: 8020
@@ -2193,23 +2266,12 @@ export const ingredients = [
    name: "double cream",
    id: 1011053
  },
- {
-   name: "dried apricots",
-   id: 9032
- },
+
  {
    name: "dried basil",
    id: 2003
  },
- {
-   name: "dried cherries",
-   id: 93822
- },
 
- {
-   name: "dried cranberries",
-   id: 9079
- },
  {
    name: "dried dill",
    id: 2017
@@ -2420,14 +2482,7 @@ export const ingredients = [
    name: "froyo bars",
    id: 93629
  },
- {
-   name: "frozen corn",
-   id: 11913
- },
- {
-   name: "frozen spinach",
-   id: 11463
- },
+
  {
    name: "fudge",
    id: 19100
@@ -2780,10 +2835,7 @@ export const ingredients = [
    id: 1009195
  },
 
- {
-   name: "ketchup",
-   id: 11935
- },
+
  {
    name: "kitchen bouquet",
    id: 93768
@@ -3016,10 +3068,7 @@ export const ingredients = [
    name: "mat beans",
    id: 99144
  },
- {
-   name: "matcha tea",
-   id: 98932
- },
+
  {
    name: "mayonnaise",
    id: 4025
@@ -3613,18 +3662,7 @@ export const ingredients = [
    name: "refried beans",
    id: 16202
  },
- {
-   name: "refrigerated crescent rolls",
-   id: 93618
- },
- {
-   name: "refrigerated pizza dough",
-   id: 93610
- },
- {
-   name: "refrigerated sugar cookie dough",
-   id: 18205
- },
+
  {
    name: "rhubarb",
    id: 9307
@@ -3933,10 +3971,7 @@ export const ingredients = [
    id: 15101
  },
 
- {
-   name: "soda water",
-   id: 14121
- },
+
  {
    name: "sour cream",
    id: 1056
@@ -4083,10 +4118,7 @@ export const ingredients = [
    id: 11945
  },
 
- {
-   name: "sweet tea",
-   id: 14355
- },
+
  {
    name: "sweetened coconut",
    id: 12109
@@ -4478,14 +4510,3 @@ export const ingredients = [
    id: 10211362
  }
 ]
-
-function sortIngredients() {
-    ingredients.forEach(item => {
-        const itemID = item.id.toString()
-        const slicedID = itemID.slice(0, 2)
-        if (slicedID === '92' || slicedID === '11') {
-            const foundCategory = ingredientCategories.find(item => item.name === 'Produce')
-            foundCategory.ingredients.push(item)
-        }
-    })
-}

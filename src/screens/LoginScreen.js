@@ -14,6 +14,7 @@ import { handleSignOut, handleLogin, userLoggedIn, auth, EmailAuthProvider, link
 import SearchContainer from '../components/SearchContainer'
 import Search from '../components/Search';
 import Button from '../components/Button'
+import InputFields from '../components/InputFields'
 
 const LoginScreen = () => {
     const [ email, setEmail ] = useState('')
@@ -41,7 +42,7 @@ const LoginScreen = () => {
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
             >
                 <View style={ tailwind(`w-full`) }>
-                    <Search 
+                    <InputFields 
                         placeholder="Email" 
                         name="email-variant" 
                         getText={ setEmail }
@@ -49,7 +50,7 @@ const LoginScreen = () => {
                     />
                 </View>
                 <View style={ tailwind(`w-full my-10`) }>
-                    <Search 
+                    <InputFields 
                         placeholder="Password" 
                         name="form-textbox-password" 
                         getText={ setPassword }

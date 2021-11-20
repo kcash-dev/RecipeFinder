@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View, Pressable } from 'react-native'
+import { StyleSheet, Text, Pressable } from 'react-native'
 import tailwind from 'tailwind-rn'
 
 //Redux

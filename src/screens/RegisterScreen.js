@@ -14,6 +14,7 @@ import { handleSignup, auth, EmailAuthProvider, linkWithCredential } from '../ap
 import Button from '../components/Button'
 import SearchContainer from '../components/SearchContainer'
 import Search from '../components/Search';
+import InputFields from '../components/InputFields'
 
 const RegisterScreen = () => {
     const [ name, setName ] = useState('');
@@ -53,14 +54,14 @@ const RegisterScreen = () => {
                         style={[ tailwind(`justify-center items-center bg-white`), styles.recipeSection ]}
                     >
                         <View style={ tailwind(`w-full my-3`) }>
-                            <Search 
+                            <InputFields 
                                 placeholder="First name" 
                                 name="account-box" 
                                 getText={ setName } 
                             />
                         </View>
                         <View style={ tailwind(`w-full my-3`) }>
-                            <Search 
+                            <InputFields 
                                 placeholder="Email" 
                                 name="email-variant" 
                                 getText={ setEmail } 
@@ -68,7 +69,7 @@ const RegisterScreen = () => {
                             />
                         </View>
                         <View style={ tailwind(`w-full my-3 mb-10`) }>
-                            <Search 
+                            <InputFields 
                                 placeholder="Password" 
                                 name="form-textbox-password" 
                                 getText={ setPassword } 

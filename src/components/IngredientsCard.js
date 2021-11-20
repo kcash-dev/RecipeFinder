@@ -13,10 +13,8 @@ const IngredientsCard = ({ name, image, ingredients }) => {
             category={ name }
         />
     ), [])
-
-    console.log(ingredients, "INGREDIENTS")
     
-    const keyExtractor = useCallback((item) => item.name, [])
+    const keyExtractor = useCallback((item) => item.id)
     return (
         <SafeAreaView style={ [ tailwind(`w-full mb-2 self-center border-gray-300 rounded-lg border-opacity-50 border`), styles.cardContainer ] }>
                 <View style={[ styles.upperCard, tailwind(`h-16 flex-row justify-between items-center border-b border-gray-200`) ]}>

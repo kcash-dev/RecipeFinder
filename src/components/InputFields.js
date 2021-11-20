@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TextInput } from 'react-native'
 import tailwind from 'tailwind-rn';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-const Search = ({ placeholder, name, callback, getText }) => {
+const InputFields = ({ placeholder, name, callback, getText, autoCaps, secureText }) => {
     const [ item, setItem ] = useState('')
     function isCallback(){
         if(callback) {
@@ -14,7 +14,7 @@ const Search = ({ placeholder, name, callback, getText }) => {
     }
 
     return (
-        <View style={[ tailwind(`flex-row w-11/12 self-center rounded-lg justify-center items-center bg-white`), styles.searchContainer ]}>
+        <View style={[ tailwind(`flex-row w-11/12 self-center rounded-lg justify-center items-center bg-white`), styles.inputFieldsContainer ]}>
             <MaterialCommunityIcons name={ name } size={24} color="black" style={ tailwind(`p-3 opacity-50`) }/>
             <TextInput 
                 placeholder={ placeholder } 
@@ -23,15 +23,17 @@ const Search = ({ placeholder, name, callback, getText }) => {
                 onEndEditing={ isCallback }
                 onSubmitEditing={ isCallback }
                 value={ item }
+                autoCapitalize={ autoCaps ? 'none' : 'words' }
+                secureTextEntry={ secureText ? true : false }
             />
         </View>
     )
 }
 
-export default Search
+export default InputFields
 
 const styles = StyleSheet.create({
-    searchContainer: {
+    inputFieldsContainer: {
         shadowColor: "#000",
         shadowOffset: {
             width: 0,

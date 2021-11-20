@@ -18,7 +18,7 @@ const IngredientSection = () => {
         />
     ), [])
     
-    const keyExtractor = useCallback((item) => item.name, [])
+    const keyExtractor = useCallback((item) => item.image, [])
 
     return (
         <View style={ tailwind(`w-full`) }>
