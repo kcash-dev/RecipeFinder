@@ -1,12 +1,17 @@
-import React, { useCallback, useState } from 'react'
-import { SafeAreaView, StyleSheet, Text, View, Image, FlatList } from 'react-native'
+import React, { useCallback, useState, useEffect } from 'react'
+import { SafeAreaView, StyleSheet, Text, View, Image, FlatList, Pressable } from 'react-native'
 import tailwind from 'tailwind-rn';
 
-//Components
+//Navigation
+import { useNavigation } from '@react-navigation/native';
 
 
-const RecipeCard = ({ recipeName, recipeURI, recipeImage, ingredientLines }) => {
-    
+const RecipeCard = ({ recipeLikes, recipeID, recipeUsedIngredientCount, recipeUsedIngredients, recipeUnusedIngredientCount, recipeUnusedIngredients, recipeName, recipeImage, recipeURI }) => {
+    const [ usedIngredients, setUsedIngredients ] = useState([])
+    const [ unusedIngredients, setUnusedIngredients ] = useState([])
+
+    const navigation = useNavigation();
+
     const renderItem = useCallback(
         ({ item }) => (
             <View>
@@ -14,31 +19,88 @@ const RecipeCard = ({ recipeName, recipeURI, recipeImage, ingredientLines }) => 
             </View>
     ), [])
 
-    const keyExtractor = useCallback(() => recipeURI, [])
+    function sortIngredientLines() {
+        const usedList = []
+        const unusedList = []
+        recipeUsedIngredients.forEach(item => {
+            usedList.push(item.original)
+        })
+        recipeUnusedIngredients.forEach(item => {
+            unusedList.push(item.original)
+        })
+        setUsedIngredients(usedList)
+        setUnusedIngredients(unusedList)
+    }
+
+    useEffect(() => {
+        sortIngredientLines()
+    }, [ recipeUsedIngredients ])
+
+    const keyExtractor = useCallback((item) => item.recipeID, [])
     
     return (
         <SafeAreaView style={ [ tailwind(`w-full mb-2 self-center border-gray-300 rounded-lg border-opacity-50 border`), styles.cardContainer ] }>
-                <View style={[ styles.upperCard, tailwind(`h-20 flex-row justify-between items-center border-b border-gray-200`) ]}>
-                    <View style={ tailwind(`ml-5 flex-row items-center`) }>
-                        <Image 
-                            source={{ uri: recipeImage }}
-                            style={ tailwind(`h-14 w-14 rounded`) }
-                        />
-                        <Text style={ tailwind(`w-5/6 pl-5`) }>{ recipeName }</Text>
-                    </View>
-                    <View style={ tailwind(`pr-5`) }>
-                        <Text style={ tailwind(`text-lg`) }></Text>
+            <Pressable
+                style={({ pressed }) => [{
+                    opacity: pressed ?
+                        0.5
+                        :
+                        1
+                }]}
+                onPress={ () =>  navigation.navigate('RecipeData', { 
+                    recipeLikes: recipeLikes, 
+                    recipeID: recipeID, 
+                    recipeUsedIngredientCount: recipeUsedIngredientCount, 
+                    recipeUsedIngredients: usedIngredients, 
+                    recipeUnusedIngredientCount: recipeUnusedIngredientCount, 
+                    recipeUnusedIngredients: unusedIngredients, 
+                    recipeName: recipeName, 
+                    recipeImage: recipeImage, 
+                    recipeURI: recipeURI
+                 })}
+            >
+                <View style={[ styles.upperCard, tailwind(`flex-row border-b border-gray-200`) ]}>
+                    <Image 
+                        source={{ uri: recipeImage }}
+                        style={ tailwind(`h-20 w-20 mt-2 rounded m-2`) }
+                    />
+                    <View style={ tailwind(`justify-center`) }>
+                        <View style={ tailwind(`w-11/12`) }>
+                            <Text style={ tailwind(`text-lg font-bold`) }>{ recipeName }</Text>
+                        </View>
+                        <View style={ tailwind(`flex-row items-center my-2`) }>
+                            <Image
+                                source={{ uri: "https://i.imgur.com/qWCForE.png" }}
+                                style={ tailwind(`h-6 w-6`) }
+                            />
+                            <Text style={ tailwind(`pl-2 text-lg`) }>{ recipeLikes }</Text>
+                        </View>
                     </View>
                 </View>
                 <View style={[ styles.lowerCard, tailwind(`justify-center pl-1 w-full`) ]}>
                     <View style={ tailwind(`py-5`) }>
+                        <View style={ tailwind(`flex-row justify-between`) }>
+                            <Text style={ tailwind(`italic text-lg underline`) }>Used Ingredients</Text>
+                            <Text style={ tailwind(`font-bold text-lg`) }>{ recipeUsedIngredientCount }</Text>
+                        </View>
                         <FlatList 
-                            data={ ingredientLines }
+                            data={ usedIngredients }
+                            renderItem={ renderItem }
+                            keyExtractor={ keyExtractor }
+                        />
+                    </View>
+                    <View style={ tailwind(`py-5`) }>
+                        <View style={ tailwind(`flex-row justify-between`) }>
+                            <Text style={ tailwind(`italic text-lg underline`) }>Missing Ingredients — { recipeUnusedIngredientCount }</Text>
+                        </View>
+                        <FlatList 
+                            data={ unusedIngredients }
                             renderItem={ renderItem }
                             keyExtractor={ keyExtractor }
                         />
                     </View>
                 </View>
+            </Pressable>
         </SafeAreaView>
     )
 }

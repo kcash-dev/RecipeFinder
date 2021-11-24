@@ -23,8 +23,8 @@ const PantryListScreen = () => {
         if (inPantry) {
             let categories = []
             let categoryNames = []
-            let result = ingredientCategories.filter(o1 => inPantry.some(o2 => {
-
+            function sortPantry() { 
+                ingredientCategories.filter(o1 => inPantry.some(o2 => {
                 if(o1.name === o2.category) {
                     if (!categoryNames.includes(o1.name)){
                         categoryNames.push(o1.name)
@@ -39,13 +39,15 @@ const PantryListScreen = () => {
                 inPantry.forEach(item1 => {
                     categories.forEach(item2 => {
                         if(item1.category === item2.name) {
-                            if (!item2.ingredients.includes(item1.name)){
-                            item2.ingredients.push(item1.name)
+                            if (!item2.ingredients.includes(item1.ingredientName)){
+                            item2.ingredients.push(item1.ingredientName)
                         }
                         }
+                     })
                     })
-                })
-            }));
+                }));
+            }
+            sortPantry();
             setCategoriesList(categories)
         } else {
             return;

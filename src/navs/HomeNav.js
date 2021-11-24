@@ -3,22 +3,21 @@ import * as React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 //Screens
-import PantryScreen from '../screens/PantryScreen';
-import PantryListScreen from '../screens/PantryListScreen';
+import HomeScreen from '../screens/HomeScreen';
 import RecipeDataScreen from '../screens/RecipeDataScreen';
 
 //Navigators
 const Stack = createNativeStackNavigator();
 
-export default function FavoritesNav() {
+export default function HomeNav() {
   return (
       <Stack.Navigator
         screenOptions={{
             headerShown: false
         }}
       >
-        <Stack.Screen name="PantryScreen" component={ PantryScreen } />
-        <Stack.Screen name="PantryList" component={ PantryListScreen } />
+        <Stack.Screen name="PantryScreen" component={ HomeScreen } />
+        <Stack.Screen name="RecipeData" component={ RecipeDataScreen } />
       </Stack.Navigator>
   );
 }

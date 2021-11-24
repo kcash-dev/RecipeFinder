@@ -34,7 +34,7 @@ const PantryListCard = ({ name, image, ingredientList }) => {
                                 <PantryChoices ingredientName={ item } />
                             )}
                             numColumns={3}
-                            keyExtractor={item => item.name}
+                            keyExtractor={ item => item.name }
                         />
                     </View>
                 </View>

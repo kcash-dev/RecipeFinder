@@ -6,13 +6,14 @@ import tailwind from 'tailwind-rn';
 import IngredientsChoices from './IngredientsChoices';
 
 const IngredientsCard = ({ name, image, ingredients }) => {
-    const renderItem = useCallback(
-        ({item}) => (
+    const renderItem = ({item}) => (
         <IngredientsChoices 
             ingredientName={ item.name } 
             category={ name }
         />
-    ), [])
+    )
+
+    const ingredientList = ingredients;
     
     const keyExtractor = useCallback((item) => item.id)
     return (
@@ -31,10 +32,10 @@ const IngredientsCard = ({ name, image, ingredients }) => {
                 <View style={[ styles.lowerCard, tailwind(`justify-center pl-1 w-full`) ]}>
                     <View style={ tailwind(`py-5`) }>
                         <FlatList 
-                            data={ ingredients }
+                            data={ ingredientList }
                             renderItem={renderItem}
                             numColumns={3}
-                            keyExtractor={keyExtractor}
+                            keyExtractor={ item => item.name }
                         />
                     </View>
                 </View>

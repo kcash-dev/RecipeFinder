@@ -7,13 +7,10 @@ import FavoritesNav from './FavoritesNav';
 import PantryNav from './PantryNav'
 
 //Screens
-import HomeScreen from '../screens/HomeScreen';
-import PantryScreen from '../screens/PantryScreen';
 import ShoppingListScreen from '../screens/ShoppingListScreen';
 
 //Icons
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { NavigationContainer } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
@@ -22,6 +19,7 @@ import { useSelector } from 'react-redux';
 
 //Firebase
 import { auth, db, doc, updateDoc } from '../api/Firebase';
+import HomeNav from './HomeNav';
 
 export default function MainTabNav() {
   const storeState = useSelector(state => state)
@@ -70,7 +68,7 @@ export default function MainTabNav() {
             />
             <Tab.Screen 
               name="Home" 
-              component={ HomeScreen }
+              component={ HomeNav }
               options={{headerShown: false}}
             />
             <Tab.Screen 

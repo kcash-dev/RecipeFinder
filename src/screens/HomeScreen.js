@@ -26,7 +26,8 @@ export default function HomeScreen() {
     const [ recipeData, setRecipeData ] = useState([])
     const ingredientsState = useSelector(state => state.ingredients)
     useEffect(() => {
-        const ingredients = ['salt', '+pepper', '+water']
+        const ingredients = ['water']
+        console.log(ingredientsState, "INGREDIENTSSTATE")
         ingredientsState.forEach(item => {
             const fixedItem = hasWhiteSpace(item.ingredientName)
             const finalItem = `+${fixedItem}`
@@ -54,31 +55,25 @@ export default function HomeScreen() {
             .then((response) => response.json())
             .then((json) => {
                 const data = json
-                const filteredRecipes = data.filter(recipe => recipe.missingIngredientCount === 0)
-                console.log(filteredRecipes, "DATA")
+                const recipeCollection = []
+                data.forEach(recipe => {
+                    if(recipe.usedIngredientCount >= 1) {
+                        console.log(recipe)
+                        recipeCollection.push({
+                            title: recipe.title,
+                            id: recipe.id,
+                            image: recipe.image,
+                            likes: recipe.likes,
+                            missedIngredientCount: recipe.missedIngredientCount,
+                            missedIngredients: recipe.missedIngredients,
+                            usedIngredientsCount: recipe.usedIngredientCount,
+                            usedIngredients: recipe.usedIngredients
+                        })
+                    }
+                })
+                setRecipeData(recipeCollection)
             })
             .catch((error) => console.log(error))
-    }
-
-    function checkPantry(recipes) {
-        const matchedRecipes = []
-        recipes.forEach(recipe => {
-            const pantryIngredients = ['salt', 'water', 'black pepper']
-            const recipeIngredients = []
-            ingredientsState.forEach(item => {
-                pantryIngredients.push(item.ingredientName.toLowerCase())
-            })
-            recipe.ingredientNames.forEach(item => {
-                recipeIngredients.push(item.toLowerCase())
-            })
-            console.log(recipeIngredients, pantryIngredients, "Ingredients Compared")
-            const checkedRecipe = recipeIngredients.every(item => pantryIngredients.includes(item))
-            if(checkedRecipe) {
-                console.log(checkedRecipe, "FOUND")
-                matchedRecipes.push(checkedRecipe)
-            }
-        })
-        return matchedRecipes;
     }
 
     async function newUser() {
@@ -101,24 +96,10 @@ export default function HomeScreen() {
     
     const renderItem = useCallback(
         ({ item }) => (
-            <RecipeCard ingredientLines={ item.ingredientLines } recipeName={ item.recipeName } recipeImage={ item.ingredientImage } recipeURI={ item.imageURI }/>
+            <RecipeCard recipeLikes={ item.likes } recipeID={ item.id } recipeUsedIngredientCount={ item.usedIngredientCount } recipeUsedIngredients={ item.usedIngredients } recipeUnusedIngredientCount={ item.missedIngredientCount } recipeUnusedIngredients={ item.missedIngredients } recipeName={ item.title } recipeImage={ item.image } recipeURI={ item.image }/>
     ), [])
 
-    const keyExtractor = useCallback((item) => item.recipeName, [])
-
-    async function getIngredients() {
-        const uri = `https://api.spoonacular.com/food/ingredients/search?apiKey=${apiKeys.spoonacularConfig.apiKey}`
-        console.log(uri)
-        await fetch(uri)
-            .then((response) => response.json())
-            .then((json) => {
-                const data = json
-                console.log(data, "INGREDIENT DATA")
-            })
-            .catch((error) => console.log(error))
-}
-
-getIngredients();
+    const keyExtractor = useCallback((item) => item.id, [])
 
     const navigation = useNavigation();
     return (
