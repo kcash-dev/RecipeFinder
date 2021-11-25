@@ -9,6 +9,7 @@ import RecipeDataHeader from '../components/RecipeDataHeader'
 const RecipeDataScreen = ({ route }) => {
     const [ steps, setSteps ] = useState([])
     const [ stepByStep, setStepByStep ] = useState([])
+    const [ similarRecipes, setSimilarRecipes ] = useState(null)
     const { 
         recipeLikes, 
         recipeID, 
@@ -23,18 +24,31 @@ const RecipeDataScreen = ({ route }) => {
 
     const getRecipeInfo = async (id) => {
         const uri = `https://api.spoonacular.com/recipes/${id}/information?apiKey=${apiKeys.spoonacularConfig.apiKey}`
-        console.log(uri)
         await fetch(uri)
             .then((response) => response.json())
             .then((json) => {
                 const data = json
+                console.log(data, "DATA")
                 setSteps(data.analyzedInstructions[0].steps)
+            })
+            .catch((error) => console.log(error))
+    }
+
+    const getSimilarRecipes = async (id) => {
+        const uri = `https://api.spoonacular.com/recipes/${id}/similar?apiKey=${apiKeys.spoonacularConfig.apiKey}`
+        await fetch(uri)
+            .then((response) => response.json())
+            .then((json) => {
+                const data = json
+                console.log(data, "SIMILAR")
+                setSimilarRecipes(data)
             })
             .catch((error) => console.log(error))
     }
 
     useEffect(() => {
         getRecipeInfo(recipeID)
+        getSimilarRecipes(recipeID)
     }, [])
 
     useEffect(() => {
@@ -67,6 +81,7 @@ const RecipeDataScreen = ({ route }) => {
                 recipeUnusedIngredientCount={ recipeUnusedIngredientCount }
                 recipeUsedIngredientCount={ recipeUsedIngredientCount }
                 recipeSteps={ stepByStep }
+                similarRecipes={ similarRecipes }
             />
         </View>
     )

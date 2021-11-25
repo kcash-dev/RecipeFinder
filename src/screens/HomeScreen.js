@@ -27,7 +27,6 @@ export default function HomeScreen() {
     const ingredientsState = useSelector(state => state.ingredients)
     useEffect(() => {
         const ingredients = ['water']
-        console.log(ingredientsState, "INGREDIENTSSTATE")
         ingredientsState.forEach(item => {
             const fixedItem = hasWhiteSpace(item.ingredientName)
             const finalItem = `+${fixedItem}`
@@ -50,7 +49,6 @@ export default function HomeScreen() {
     const getRecipes = async (ingredients) => {
         const ingredientsList = ingredients.join(',')
         const uri = `https://api.spoonacular.com/recipes/findByIngredients?apiKey=${apiKeys.spoonacularConfig.apiKey}&ingredients=${ingredientsList}`
-        console.log(uri)
         await fetch(uri)
             .then((response) => response.json())
             .then((json) => {
@@ -58,7 +56,6 @@ export default function HomeScreen() {
                 const recipeCollection = []
                 data.forEach(recipe => {
                     if(recipe.usedIngredientCount >= 1) {
-                        console.log(recipe)
                         recipeCollection.push({
                             title: recipe.title,
                             id: recipe.id,
