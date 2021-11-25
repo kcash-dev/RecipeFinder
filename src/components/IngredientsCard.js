@@ -10,12 +10,13 @@ const IngredientsCard = ({ name, image, ingredients }) => {
         <IngredientsChoices 
             ingredientName={ item.name } 
             category={ name }
+            id={ item.id }
         />
     )
 
     const ingredientList = ingredients;
     
-    const keyExtractor = useCallback((item) => item.id)
+    const keyExtractor = useCallback((item) => item.id, [])
     return (
         <SafeAreaView style={ [ tailwind(`w-full mb-2 self-center border-gray-300 rounded-lg border-opacity-50 border`), styles.cardContainer ] }>
                 <View style={[ styles.upperCard, tailwind(`h-16 flex-row justify-between items-center border-b border-gray-200`) ]}>
@@ -35,7 +36,8 @@ const IngredientsCard = ({ name, image, ingredients }) => {
                             data={ ingredientList }
                             renderItem={renderItem}
                             numColumns={3}
-                            keyExtractor={ item => item.name }
+                            keyExtractor={keyExtractor}
+                            maxToRenderPerBatch={ 10 }
                         />
                     </View>
                 </View>

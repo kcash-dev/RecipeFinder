@@ -34,7 +34,7 @@ const RecipeDataCard = ({ recipeSteps, similarRecipes, recipeUsedIngredients, re
                         <FlatList
                             data={ similarRecipes }
                             renderItem={({ item }) => (
-                                <View style={ tailwind(`flex-row`) }>
+                                <View style={ tailwind(`flex-row m-1 ml-2`) }>
                                     <Text>{ item.title }</Text>
                                 </View>
                             )}

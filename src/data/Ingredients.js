@@ -706,24 +706,8 @@ export const ingredientCategories = [
                 id: 99226
               },
               {
-                name: "shallot",
-                id: 11677
-              },
-              {
                 name: "shiitake mushroom caps",
                 id: 11238
-              },
-              {
-                name: "snow peas",
-                id: 11300
-              },
-              {
-                name: "spinach",
-                id: 10011457
-              },
-              {
-                name: "sprouts",
-                id: 11001
               },
               {
                 name: "squash",
@@ -740,54 +724,6 @@ export const ingredientCategories = [
               {
                 name: "summer squash",
                 id: 11641
-              },
-              {
-                name: "sweet onion",
-                id: 11294
-              },
-              {
-                name: "sweet potato",
-                id: 11507
-              },
-              {
-                name: "tart apple",
-                id: 1029003
-              },
-              {
-                name: "tomatillos",
-                id: 11954
-              },
-              {
-                name: "tomatoes",
-                id: 11529
-              },
-              {
-                name: "turnips",
-                id: 11564
-              },
-              {
-                name: "watercress",
-                id: 11591
-              },
-              {
-                name: "white onion",
-                id: 10611282
-              },
-              {
-                name: "white pepper",
-                id: 2032
-              },
-              {
-                name: "whole kernel corn",
-                id: 11177
-              },
-              {
-                name: "winter squash",
-                id: 10111485
-              },
-              {
-                name: "yellow bell pepper",
-                id: 11951
               },
               {
                 name: "yellow onion",
@@ -798,16 +734,8 @@ export const ingredientCategories = [
                 id: 2038
               },
               {
-                name: "sage leaves",
-                id: 99226
-              },
-              {
                 name: "shallot",
                 id: 11677
-              },
-              {
-                name: "shiitake mushroom caps",
-                id: 11238
               },
               {
                 name: "snow peas",
@@ -820,22 +748,6 @@ export const ingredientCategories = [
               {
                 name: "sprouts",
                 id: 11001
-              },
-              {
-                name: "squash",
-                id: 10011485
-              },
-              {
-                name: "strawberries",
-                id: 9316
-              },
-              {
-                name: "sugar snap peas",
-                id: 10011300
-              },
-              {
-                name: "summer squash",
-                id: 11641
               },
               {
                 name: "sweet onion",
@@ -884,10 +796,6 @@ export const ingredientCategories = [
               {
                 name: "yellow bell pepper",
                 id: 11951
-              },
-              {
-                name: "yellow onion",
-                id: 10511282
               },
         ]
     },
