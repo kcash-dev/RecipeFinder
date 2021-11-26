@@ -94,6 +94,7 @@ const PantryListScreen = () => {
                             />
                         )}
                         keyExtractor={ item => item.name }
+                        listKey="PantryListFlatList"
                     />
                     :
                     <View style={ tailwind(`flex-1 justify-center self-center`) }>

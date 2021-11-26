@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, View, Image, Button, SafeAreaView, FlatList } from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView, FlatList, Pressable } from 'react-native'
 import tailwind from 'tailwind-rn';
 
 const RecipeDataCard = ({ recipeSteps, similarRecipes, recipeUsedIngredients, recipeUnusedIngredients }) => {
@@ -12,6 +12,21 @@ const RecipeDataCard = ({ recipeSteps, similarRecipes, recipeUsedIngredients, re
     useEffect(() => {
         getSteps()
     }, [ recipeSteps ])
+
+    const renderItem = ({ item }) => (
+        <Pressable style={({ pressed }) => [{
+            opacity: pressed ?
+                0.5
+                :
+                1
+            },
+            tailwind(`flex-row m-1 ml-2`) 
+        ]}>
+            <Text style={ tailwind(`text-blue-500`) }>{ item.title }</Text>
+        </Pressable>
+    )
+
+    const keyExtractor = item => item.id
     
     return (
         <SafeAreaView style={ tailwind(`bg-green-500 flex-1`)}>
@@ -33,12 +48,8 @@ const RecipeDataCard = ({ recipeSteps, similarRecipes, recipeUsedIngredients, re
                         <Text style={ tailwind(`font-bold text-lg pl-2`) }>Similar Recipes</Text>
                         <FlatList
                             data={ similarRecipes }
-                            renderItem={({ item }) => (
-                                <View style={ tailwind(`flex-row m-1 ml-2`) }>
-                                    <Text>{ item.title }</Text>
-                                </View>
-                            )}
-                            keyExtractor={item => item.id}
+                            renderItem={ renderItem }
+                            keyExtractor={ keyExtractor }
                         />
                     </View>
                 </View>

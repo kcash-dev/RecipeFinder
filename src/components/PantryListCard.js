@@ -35,6 +35,7 @@ const PantryListCard = ({ name, image, ingredientList }) => {
                             )}
                             numColumns={3}
                             keyExtractor={ item => item.name }
+                            listKey='FlatListInnerCard'
                         />
                     </View>
                 </View>
