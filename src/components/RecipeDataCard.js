@@ -24,7 +24,8 @@ const RecipeDataCard = ({ recipeSteps, similarRecipes, recipeUsedIngredients, re
                 1
             },
             tailwind(`flex-row m-1 ml-2`) 
-        ]}>
+            ]}
+        >
             <Text style={ tailwind(`text-blue-500`) }>{ item.title }</Text>
         </Pressable>
     )

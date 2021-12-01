@@ -93,7 +93,16 @@ export default function HomeScreen() {
     
     const renderItem = useCallback(
         ({ item }) => (
-            <RecipeCard recipeLikes={ item.likes } recipeID={ item.id } recipeUsedIngredientCount={ item.usedIngredientCount } recipeUsedIngredients={ item.usedIngredients } recipeUnusedIngredientCount={ item.missedIngredientCount } recipeUnusedIngredients={ item.missedIngredients } recipeName={ item.title } recipeImage={ item.image } recipeURI={ item.image }/>
+            <RecipeCard 
+                recipeLikes={ item.likes } 
+                recipeID={ item.id } 
+                recipeUsedIngredientCount={ item.usedIngredientCount } 
+                recipeUsedIngredients={ item.usedIngredients } 
+                recipeUnusedIngredientCount={ item.missedIngredientCount } 
+                recipeUnusedIngredients={ item.missedIngredients } 
+                recipeName={ item.title } 
+                recipeImage={ item.image } 
+                recipeURI={ item.image }/>
     ), [])
 
     const keyExtractor = useCallback((item) => item.id, [])
