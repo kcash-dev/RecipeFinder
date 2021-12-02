@@ -1,4 +1,4 @@
-import { ADD_ITEM, ADD_SHOPPINGCART, LOGIN_USER, LOGOUT_USER, REMOVE_ITEM } from "./types";
+import { ADD_ITEM, ADD_SHOPPINGCART, REMOVE_SHOPPINGCART, LOGIN_USER, LOGOUT_USER, REMOVE_ITEM } from "./types";
 
 //initial state
 const initialState = {
@@ -32,6 +32,12 @@ function reducer(state = initialState, action) {
                     ...state.shoppingCart,
                     action.payload
                 ]
+            }
+        case REMOVE_SHOPPINGCART:
+            const shoppingCartItemToRemove = action.payload.name
+            return {
+                ...state,
+                shoppingCart: state.shoppingCart.filter(item => item.name != shoppingCartItemToRemove)
             }
         case LOGIN_USER:
             return {

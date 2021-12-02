@@ -6,15 +6,15 @@ import tailwind from 'tailwind-rn'
 import { useDispatch, useSelector } from 'react-redux'
 import { removeItem, addToShoppingCart } from '../store/actions'
 
-const PantryChoices = ({ ingredientName }) => {
+const PantryChoices = ({ ingredientName, category, image }) => {
     const [ press, setPress ] = useState(false)
     const [ isInCart, setIsInCart ] = useState(false)
     const [ clickedItem, setClickedItem ] = useState({
-        ingredientName: ingredientName
+        ingredientName: ingredientName,
+        category: category
     })
 
     const dispatch = useDispatch();
-    const state = useSelector(state => state.ingredients)
 
     function removeFromPantry(item) {
         dispatch(removeItem(item))
@@ -40,7 +40,11 @@ const PantryChoices = ({ ingredientName }) => {
             onPress={() => {
                 removeFromPantry(clickedItem)
             } }
-            onLongPress={() => addItemToShoppingCart(ingredientName)}
+            onLongPress={() => addItemToShoppingCart({
+                name: ingredientName, 
+                categoryName: category,
+                image: image
+            })}
         >
             <Text style={[ { 
                 color: isInCart ?

@@ -14,10 +14,17 @@ function removeItem(ingredientName) {
     }
 }
 
-function addToShoppingCart(ingredientName) {
+function addToShoppingCart(item) {
     return {
         type: ADD_SHOPPINGCART,
-        payload: ingredientName
+        payload: item
+    }
+}
+
+function removeFromShoppingCart(item) {
+    return {
+        type: REMOVE_SHOPPINGCART,
+        payload: item
     }
 }
 
@@ -33,4 +40,4 @@ function logoutUser() {
     }
 }
 
-export { addItem, removeItem, loginUser, logoutUser, addToShoppingCart };
+export { addItem, removeItem, loginUser, logoutUser, addToShoppingCart, removeFromShoppingCart };

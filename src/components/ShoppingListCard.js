@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import { SafeAreaView, StyleSheet, Text, View, Image, FlatList } from 'react-native'
-import tailwind from 'tailwind-rn';
+import React, { useState, useEffect } from 'react'
+import { StyleSheet, Text, View, FlatList, SafeAreaView, Image } from 'react-native'
+import tailwind from 'tailwind-rn'
 
 //Components
-import PantryChoices from './PantryChoices';
+import ShoppingCartChoices from './ShoppingCartChoices'
 
-const PantryListCard = ({ name, image, ingredientList }) => {
-    const [ ingredients, setIngredients ] = useState([])
+const ShoppingListCard = ({ shoppingItems, category, image }) => {
+    const [ shoppingList, setShoppingList ] = useState([])
 
     useEffect(() => {
-        setIngredients(ingredientList)
-    }, [ ingredientList ])
+        setShoppingList(shoppingItems)
+    }, [ shoppingItems ])
 
     return (
         <SafeAreaView style={ [ tailwind(`w-full mb-2 self-center border-gray-300 rounded-lg border-opacity-50 border`), styles.cardContainer ] }>
@@ -18,24 +18,25 @@ const PantryListCard = ({ name, image, ingredientList }) => {
                 <View style={[ styles.upperCard, tailwind(`h-16 flex-row justify-between items-center border-b border-gray-200`) ]}>
                     <View style={ tailwind(`pl-5`) }>
                         <Image 
-                            source={{ uri: image }}
+                            source={{ uri:  image }}
                             style={ tailwind(`h-10 w-10`) }
                         />
                     </View>
                     <View style={ tailwind(`pr-5`) }>
-                        <Text style={ tailwind(`text-lg`) }>{ name }</Text>
+                        <Text style={ tailwind(`text-lg`) }>{ category }</Text>
                     </View>
                 </View>
                 <View style={[ styles.lowerCard, tailwind(`justify-center pl-1 w-full`) ]}>
                     <View style={ tailwind(`py-5`) }>
                         <FlatList 
-                            data={ ingredients }
+                            data={ shoppingList }
                             renderItem={({ item }) => (
-                                <PantryChoices ingredientName={ item } category={ name } image={ image }/>
+                                <ShoppingCartChoices ingredientName={ item } />
                             )}
                             numColumns={3}
                             keyExtractor={ item => item.name }
                             listKey='FlatListInnerCard'
+                            showsVerticalScrollIndicator='false'
                         />
                     </View>
                 </View>
@@ -44,7 +45,7 @@ const PantryListCard = ({ name, image, ingredientList }) => {
     )
 }
 
-export default PantryListCard
+export default ShoppingListCard
 
 const styles = StyleSheet.create({
     cardContainer: {

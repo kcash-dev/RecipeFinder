@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { StyleSheet, Text, View, SafeAreaView, Image, FlatList } from 'react-native'
 import tailwind from 'tailwind-rn'
 
@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux'
 //Components
 import SearchContainer from '../components/SearchContainer'
 import Button from '../components/Button'
+import ShoppingListCard from '../components/ShoppingListCard'
 
 //Navigation
 import { useNavigation } from '@react-navigation/native'
@@ -20,11 +21,36 @@ const ShoppingListScreen = () => {
     const navigation = useNavigation();
     const shoppingCartState = useSelector(state => state.shoppingCart)
 
+    console.log(shoppingCartState, "SHOPPING")
+
+    useEffect(() => {
+        setNumItems(shoppingCartState.length)
+    }, [ shoppingCartState ])
+
+    const categories = []
+
+    shoppingCartState.forEach(item => {
+        let categoryName = item.categoryName
+        console.log(categoryName)
+        if(!categories.includes(categoryName)) {
+            categories.push({
+                name: categoryName,
+                image: item.image,
+                items: [ item.name ]
+            })
+        } else {
+            const foundItem = categories.find(item => {
+                item.name === categoryName
+            })
+            foundItem.items.push(item.name)
+        }
+    })
+
+    console.log(categories, "CATS")
+
     const renderItem = useCallback(
         ({item}) => (
-            <View style={ tailwind(`p-5 border w-full`) }>
-                <Text>{ item }</Text>
-            </View>
+            <ShoppingListCard category={ item.name } image={ item.image } shoppingItems={ item.items } />
     ), [])
 
     const keyExtractor = useCallback((item) => item, [])
@@ -35,9 +61,10 @@ const ShoppingListScreen = () => {
                 { shoppingCartState.length > 0 ?
                     <View style={ tailwind(`w-full h-full mt-5`) }>
                         <FlatList
-                            data={ shoppingCartState }
-                            renderItem={renderItem}
-                            keyExtractor={keyExtractor}
+                            data={ categories }
+                            renderItem={ renderItem }
+                            keyExtractor={ keyExtractor }
+                            showsVerticalScrollIndicator='false'
                         />
                     </View>
                     :
