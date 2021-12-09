@@ -5,15 +5,14 @@ import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+//Components
+import SearchChoices from './SearchChoices';
+
 //Ingredients
 import { ingredientCategories } from '../data/Ingredients';
 
 //Firebase
 import { userLoggedIn } from '../api/Firebase';
-
-//Redux
-import { useSelector, useDispatch } from 'react-redux';
-import { addItem, removeItem } from '../store/actions'
 
 //Images
 const upperImage = { uri: "https://i.imgur.com/CrICZPR.jpg" }
@@ -24,10 +23,8 @@ const SearchContainer = ({ name, subtitle }) => {
     const [ searchItem, setSearchItem ] = useState('')
     const [ isFocused, setIsFocused ] = useState(false)
     const [ list, setList ] = useState([])
+
     const navigation = useNavigation();
-    
-    const dispatch = useDispatch();
-    const state = useSelector(state => state.ingredients)
     
     useEffect(() => {
         if(userLoggedIn) {
@@ -63,28 +60,10 @@ const SearchContainer = ({ name, subtitle }) => {
 
     const renderItem = useCallback(
         ({ item }) => (
-            <View style={ tailwind(`bg-white h-16 rounded-lg items-center justify-between flex-row w-11/12 border-b self-center px-3`) }>
-                <Text style={ tailwind(`text-lg text-black`) }>{ item.ingredientName }</Text>
-                <Pressable
-                    style={({ pressed }) => [ 
-                        { 
-                            opacity: pressed ?
-                                0.5
-                                :
-                                1
-                        },
-                        ]
-                    }
-                    onPress={() => {
-                        dispatch(addItem(item))
-                    }}
-                >
-                    <MaterialCommunityIcons name="plus-circle-outline" size={24} color="black" />
-                </Pressable>
-            </View>
+            <SearchChoices item={ item } />
         ), [])
 
-    const keyExtractor = useCallback((item) => item.name, [])
+    const keyExtractor = useCallback((item) => item.ingredientName, [])
     
     return (
         <SafeAreaView style={[ tailwind(`items-center justify-center`), styles.upperSection ]}>

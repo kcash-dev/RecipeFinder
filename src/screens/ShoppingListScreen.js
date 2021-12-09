@@ -21,7 +21,7 @@ const ShoppingListScreen = () => {
     const navigation = useNavigation();
     const shoppingCartState = useSelector(state => state.shoppingCart)
 
-    console.log(shoppingCartState, "SHOPPING")
+    console.log(shoppingCartState, 'SHOPPING')
 
     useEffect(() => {
         setNumItems(shoppingCartState.length)
@@ -31,19 +31,32 @@ const ShoppingListScreen = () => {
 
     shoppingCartState.forEach(item => {
         let categoryName = item.categoryName
-        console.log(categoryName)
-        if(!categories.includes(categoryName)) {
+
+        if(categories.length === 0) {
             categories.push({
                 name: categoryName,
                 image: item.image,
                 items: [ item.name ]
             })
         } else {
-            const foundItem = categories.find(item => {
-                item.name === categoryName
+            const catNames = []
+            categories.forEach(catItem => {
+                catNames.push(catItem.name)
             })
-            foundItem.items.push(item.name)
+            if (!catNames.includes(categoryName)) {
+                categories.push({
+                    name: categoryName,
+                    image: item.image,
+                    items: [ item.name ]
+                })
+            } else {
+                const foundItem = categories.find(item => {
+                    return item.name === categoryName
+                })
+                foundItem.items.push(item.name)
+            }
         }
+
     })
 
     console.log(categories, "CATS")

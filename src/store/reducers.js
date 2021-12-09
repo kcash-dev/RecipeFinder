@@ -20,10 +20,10 @@ function reducer(state = initialState, action) {
             }
             break;
         case REMOVE_ITEM:
-            const itemToRemove = action.payload.name
+            const itemToRemove = action.payload.ingredientName
             return {
                 ...state,
-                ingredients: state.ingredients.filter(item => item.name != itemToRemove)
+                ingredients: state.ingredients.filter(item => item.ingredientName != itemToRemove)
             }
         case ADD_SHOPPINGCART:
             return {

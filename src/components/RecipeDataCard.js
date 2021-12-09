@@ -30,8 +30,6 @@ const RecipeDataCard = ({ recipeSteps, similarRecipes, recipeUsedIngredients, re
         </Pressable>
     )
 
-    console.log(similarRecipes)
-
     const keyExtractor = item => item.id
     
     return (
