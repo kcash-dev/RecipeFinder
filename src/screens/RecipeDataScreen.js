@@ -17,9 +17,11 @@ const RecipeDataScreen = ({ route }) => {
         recipeUsedIngredients, 
         recipeUnusedIngredientCount, 
         recipeUnusedIngredients, 
-        recipeName, 
+        recipeName,
         recipeImage, 
-        recipeURI 
+        recipeURI,
+        usedIngred,
+        unusedIngred 
     } = route.params;
 
     const getRecipeInfo = async (id) => {
@@ -82,6 +84,9 @@ const RecipeDataScreen = ({ route }) => {
                 recipeUsedIngredientCount={ recipeUsedIngredientCount }
                 recipeSteps={ stepByStep }
                 similarRecipes={ similarRecipes }
+                usedIngred={ usedIngred }
+                unusedIngred={ unusedIngred }
+                recipeName={ recipeName }
             />
         </View>
     )

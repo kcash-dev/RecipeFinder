@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Pressable, Alert } from 'react-native'
 import tailwind from 'tailwind-rn'
 
 //Redux
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { removeItem, addToShoppingCart } from '../store/actions'
 
 const PantryChoices = ({ ingredientName, category, image }) => {

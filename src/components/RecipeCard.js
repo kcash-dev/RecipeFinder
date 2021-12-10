@@ -6,9 +6,11 @@ import tailwind from 'tailwind-rn';
 import { useNavigation } from '@react-navigation/native';
 
 
-const RecipeCard = ({ recipeLikes, recipeID, recipeUsedIngredientCount, recipeUsedIngredients, recipeUnusedIngredientCount, recipeUnusedIngredients, recipeName, recipeImage, recipeURI }) => {
-    const [ usedIngredients, setUsedIngredients ] = useState([])
-    const [ unusedIngredients, setUnusedIngredients ] = useState([])
+const RecipeCard = ({ recipeCategory, recipeLikes, recipeID, recipeUsedIngredientCount, recipeUsedIngredients, recipeUnusedIngredientCount, recipeUnusedIngredients, recipeName, recipeImage, recipeURI }) => {
+    const [ usedIngredients, setUsedIngredients ] = useState([]);
+    const [ unusedIngredients, setUnusedIngredients ] = useState([]);
+    const [ usedNames, setUsedNames ] = useState();
+    const [ unusedNames, setUnusedNames ] = useState();
 
     const navigation = useNavigation();
 
@@ -22,14 +24,20 @@ const RecipeCard = ({ recipeLikes, recipeID, recipeUsedIngredientCount, recipeUs
     function sortIngredientLines() {
         const usedList = []
         const unusedList = []
+        const usedName = []
+        const unusedName = []
         recipeUsedIngredients.forEach(item => {
             usedList.push(item.original)
+            usedName.push(item.name)
         })
         recipeUnusedIngredients.forEach(item => {
             unusedList.push(item.original)
+            unusedName.push(item.name)
         })
         setUsedIngredients(usedList)
         setUnusedIngredients(unusedList)
+        setUsedNames(usedName)
+        setUnusedNames(unusedName)
     }
 
     useEffect(() => {
@@ -56,7 +64,10 @@ const RecipeCard = ({ recipeLikes, recipeID, recipeUsedIngredientCount, recipeUs
                     recipeUnusedIngredients: unusedIngredients, 
                     recipeName: recipeName, 
                     recipeImage: recipeImage, 
-                    recipeURI: recipeURI
+                    recipeURI: recipeURI,
+                    usedIngred: usedNames,
+                    unusedIngred: unusedNames,
+                    recipeCategory: recipeCategory
                  })}
             >
                 <View style={[ styles.upperCard, tailwind(`flex-row border-b border-gray-200`) ]}>

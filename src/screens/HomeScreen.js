@@ -53,6 +53,7 @@ export default function HomeScreen() {
             .then((response) => response.json())
             .then((json) => {
                 const data = json
+                console.log(data)
                 const recipeCollection = []
                 data.forEach(recipe => {
                     if(recipe.usedIngredientCount >= 1) {
@@ -64,7 +65,8 @@ export default function HomeScreen() {
                             missedIngredientCount: recipe.missedIngredientCount,
                             missedIngredients: recipe.missedIngredients,
                             usedIngredientsCount: recipe.usedIngredientCount,
-                            usedIngredients: recipe.usedIngredients
+                            usedIngredients: recipe.usedIngredients,
+                            category: recipe.aisle
                         })
                     }
                 })
@@ -102,7 +104,9 @@ export default function HomeScreen() {
                 recipeUnusedIngredients={ item.missedIngredients } 
                 recipeName={ item.title } 
                 recipeImage={ item.image } 
-                recipeURI={ item.image }/>
+                recipeURI={ item.image }
+                recipeCategory={ item.category }
+            />
     ), [])
 
     const keyExtractor = useCallback((item) => item.id, [])
