@@ -10,6 +10,8 @@ const RecipeDataScreen = ({ route }) => {
     const [ steps, setSteps ] = useState([])
     const [ stepByStep, setStepByStep ] = useState([])
     const [ similarRecipes, setSimilarRecipes ] = useState(null)
+    const [ spoonacularScore, setSpoonacularScore ] = useState(null);
+    const [ healthScore, setHealthScore ] = useState(null)
     const { 
         recipeLikes, 
         recipeID, 
@@ -30,8 +32,9 @@ const RecipeDataScreen = ({ route }) => {
             .then((response) => response.json())
             .then((json) => {
                 const data = json
-                console.log(data, "DATA")
                 setSteps(data.analyzedInstructions[0].steps)
+                setSpoonacularScore(data.spoonacularScore)
+                setHealthScore(data.healthScore)
             })
             .catch((error) => console.log(error))
     }
@@ -42,7 +45,6 @@ const RecipeDataScreen = ({ route }) => {
             .then((response) => response.json())
             .then((json) => {
                 const data = json
-                console.log(data, "SIMILAR")
                 setSimilarRecipes(data)
             })
             .catch((error) => console.log(error))
@@ -60,13 +62,11 @@ const RecipeDataScreen = ({ route }) => {
     function getSteps() {
         const stepCollection = []
         steps.forEach(item => {
-            console.log(item)
             stepCollection.push({
                 stepNumber: item.number,
                 stepDescription: item.step
             })
         })
-        console.log(stepCollection)
         setStepByStep(stepCollection)
     }
 
@@ -76,6 +76,8 @@ const RecipeDataScreen = ({ route }) => {
                 recipeName={ recipeName }
                 recipeImage={ recipeImage }
                 recipeLikes={ recipeLikes }
+                spoonacularScore={ spoonacularScore }
+                healthScore={ healthScore }
             />
             <RecipeDataCard 
                 recipeUsedIngredients={ recipeUsedIngredients }

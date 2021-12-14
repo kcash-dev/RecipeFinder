@@ -48,7 +48,9 @@ const PantryScreen = () => {
             </View>
             <View style={ tailwind(`flex-row justify-evenly bg-white py-3`) }>
                 <Button name="My Pantry" onPress={() => navigation.navigate('PantryList')} number={ numPickedItems }/>
-                <Button name="Recipes"/>
+                <Button name="Recipes" onPress={() => navigation.navigate('Home', {
+                    screen: 'HomeScreen'
+                })} />
             </View>
         </SafeAreaView>
     )

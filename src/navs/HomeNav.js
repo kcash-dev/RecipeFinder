@@ -16,7 +16,7 @@ export default function HomeNav() {
             headerShown: false
         }}
       >
-        <Stack.Screen name="PantryScreen" component={ HomeScreen } />
+        <Stack.Screen name="HomeScreen" component={ HomeScreen } />
         <Stack.Screen name="RecipeData" component={ RecipeDataScreen } />
       </Stack.Navigator>
   );

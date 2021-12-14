@@ -7,12 +7,17 @@ import { addToShoppingCart } from '../store/actions'
 //Redux
 import { useDispatch } from 'react-redux'
 
-const RecipeDataCard = ({ recipeCategory, recipeSteps, similarRecipes, usedIngred, unusedIngred, recipeName }) => {
+//Components
+import FloatingButton from './FloatingButton';
+
+const RecipeDataCard = ({ recipeUsedIngredients, recipeUnusedIngredients, recipeCategory, recipeSteps, similarRecipes, usedIngred, unusedIngred, recipeName }) => {
     const [ steps, setSteps ] = useState(null)
     const [ instructionsExpanded, setInstructionsExpanded ] = useState(false)
     const [ similarRecipesExpanded, setSimilarRecipesExpanded ] = useState(false)
     const [ usedIngredientsExpanded, setUsedIngredientsExpanded ] = useState(false)
     const [ unusedIngredientsExpanded, setUnusedIngredientsExpanded ] = useState(false)
+    const [ neededIngredsExpanded, setNeededIngredsExpanded ] = useState(false)
+    const [ neededIngredients, setNeededIngredients ] = useState(null)
     const [ clickedItem, setClickedItem ] = useState({
         ingredientName: recipeName,
         category: recipeCategory
@@ -23,9 +28,21 @@ const RecipeDataCard = ({ recipeCategory, recipeSteps, similarRecipes, usedIngre
     function getSteps() {
         setSteps(recipeSteps)
     }
+
+    function combineIngreds() {
+        const combined = []
+        recipeUsedIngredients.forEach(item => {
+            combined.push(item)
+        })
+        recipeUnusedIngredients.forEach(item => {
+            combined.push(item)
+        })
+        setNeededIngredients(combined)
+    }
     
     useEffect(() => {
         getSteps()
+        combineIngreds()
     }, [ recipeSteps ])
 
     const renderItem = ({ item }) => (
@@ -66,7 +83,49 @@ const RecipeDataCard = ({ recipeCategory, recipeSteps, similarRecipes, usedIngre
     
     return (
         <SafeAreaView style={ tailwind(`bg-green-500 flex-1`) }>
-            <View style={[ tailwind(`items-center bg-white`), styles.recipeSection ]}>
+            <View style={[ tailwind(`bg-white`), styles.recipeSection ]}>
+                <View style={[ styles.innerContainer, styles.cardContainer ]}>
+                    <View 
+                        style={[ 
+                            { height: neededIngredsExpanded ?
+                                250
+                                :
+                                30
+                            },
+                            tailwind(`border-b w-full`) 
+                        ]}>
+                        <Pressable 
+                            style={({ pressed }) => [
+                                {
+                                    opacity: pressed ?
+                                        0.5
+                                        :
+                                        1
+                                },
+                                tailwind(`flex-row justify-between items-center`)
+                                ]  
+                            }
+                            onPress={() => setNeededIngredsExpanded(!neededIngredsExpanded)}
+                            >
+                            <Text style={ tailwind(`font-bold text-lg pl-2`) }>What you need</Text>
+                            { neededIngredsExpanded ?
+                                <MaterialIcons name="keyboard-arrow-up" size={24} color="black" style={ tailwind(`pr-3`)} />
+                                :
+                                <MaterialIcons name="keyboard-arrow-down" size={24} color="black" style={ tailwind(`pr-3`) }/>
+                            }
+                        </Pressable>
+                        <FlatList
+                            data={ neededIngredients }
+                            renderItem={({item}) => (
+                                <View style={ tailwind(`flex-row m-2`) }>
+                                    <Text>{ item }</Text>
+                                </View>
+                            )}
+                            showsVerticalScrollIndicator={ false }
+                            keyExtractor={item => item}
+                        />
+                    </View>
+                </View>
                 <View style={[ styles.innerContainer, styles.cardContainer ]}>
                     <View 
                         style={[ 
@@ -219,6 +278,10 @@ const RecipeDataCard = ({ recipeCategory, recipeSteps, similarRecipes, usedIngre
                         />
                     </View>
                 </View>
+                <FloatingButton 
+                    right={5}
+                    bottom={10}
+                />
             </View>
         </SafeAreaView>
     )

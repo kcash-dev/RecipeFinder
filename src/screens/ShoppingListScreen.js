@@ -21,8 +21,6 @@ const ShoppingListScreen = () => {
     const navigation = useNavigation();
     const shoppingCartState = useSelector(state => state.shoppingCart)
 
-    console.log(shoppingCartState, 'SHOPPING')
-
     useEffect(() => {
         setNumItems(shoppingCartState.length)
     }, [ shoppingCartState ])
@@ -58,9 +56,7 @@ const ShoppingListScreen = () => {
         }
 
     })
-
-    console.log(categories, "CATS")
-
+    
     const renderItem = useCallback(
         ({item}) => (
             <ShoppingListCard category={ item.name } image={ item.image } shoppingItems={ item.items } />
@@ -84,7 +80,6 @@ const ShoppingListScreen = () => {
                     <View style={ tailwind(`items-center`) }>
                         <Image source={ bgImage } style={ tailwind(`h-40 w-40 mt-10 opacity-50`) } />
                         <Text style={ tailwind(`my-10`) }>Your shopping list is empty.</Text>
-                        <Button name="Add an item" onPress={ () => navigation.navigate('Pantry') }/>
                     </View>
                 }
             </View>

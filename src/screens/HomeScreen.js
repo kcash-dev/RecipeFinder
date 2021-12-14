@@ -53,7 +53,6 @@ export default function HomeScreen() {
             .then((response) => response.json())
             .then((json) => {
                 const data = json
-                console.log(data)
                 const recipeCollection = []
                 data.forEach(recipe => {
                     if(recipe.usedIngredientCount >= 1) {
